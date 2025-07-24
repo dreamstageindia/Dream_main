@@ -33,7 +33,7 @@ const Home = () => {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       /* -------- Sections 2→3→4 (vertical pinned) -------- */
-      const HOLD = 0.35;
+      const HOLD = 0.100;
 
       gsap.set(sec2Ref.current, { xPercent: 0, autoAlpha: 1 });
       gsap.set(sec3Ref.current, { xPercent: 100, autoAlpha: 0 });
@@ -43,7 +43,7 @@ const Home = () => {
         scrollTrigger: {
           trigger: pinWrapRef.current,
           start: "top top",
-          end: "+=300%",
+          end: "+=250%",
           scrub: 0.6,
           pin: true,
           anticipatePin: 1,
@@ -128,7 +128,7 @@ const Home = () => {
           
           
       {/* Horizontal scroll RIGHT */}
-      <div ref={hWrapRef} className="relative h-screen overflow-hidden">
+      {/* <div ref={hWrapRef} className="relative h-screen overflow-hidden">
         <div ref={hTrackRef} className="h-full flex">
           <div className="hsec shrink-0 w-screen h-screen">
             <Section8 />
@@ -145,14 +145,14 @@ const Home = () => {
           
 
         </div>
-      </div>
+      </div> */}
 
       {/* Normal flow after */}
-      <section className="min-h-screen flex items-center justify-center px-8 bg-black">
+      {/* <section className="min-h-screen flex items-center justify-center px-8 bg-black">
         <h2 className="text-3xl md:text-5xl font-semibold">
           More content goes here…
         </h2>
-      </section>
+      </section> */}
     </div>
   );
 };
