@@ -58,33 +58,26 @@ const Hero = () => {
     if (isIOS()) {
       v.setAttribute("playsinline", "");
       v.setAttribute("webkit-playsinline", "true");
-      v.setAttribute("x5-playsinline", "true");
+      v.removeAttribute("controls");
     }
 
-    const onCanPlay = () => setVideoReady(true);
-    const onPlaying = () => setVideoReady(true);
-    const onError = () => {
+    const onCanPlay = () => {
+      setVideoReady(true);
+      v.play().catch(() => setNeedsTap(true));
+    };
+    const onError = (e) => {
+      console.error("Video error:", e);
       setVideoReady(false);
       setNeedsTap(true);
     };
 
     v.addEventListener("canplay", onCanPlay);
-    v.addEventListener("playing", onPlaying);
     v.addEventListener("error", onError);
 
-    const p = v.play?.();
-    if (p && typeof p.then === "function") {
-      p.then(() => {
-        setVideoReady(true);
-        setNeedsTap(false);
-      }).catch(() => {
-        setNeedsTap(true);
-      });
-    }
+    v.play().catch(() => setNeedsTap(true));
 
     return () => {
       v.removeEventListener("canplay", onCanPlay);
-      v.removeEventListener("playing", onPlaying);
       v.removeEventListener("error", onError);
     };
   }, []);
@@ -98,7 +91,8 @@ const Hero = () => {
         setNeedsTap(false);
         setVideoReady(true);
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error("Play error:", e);
         setVideoReady(false);
       });
   };
@@ -134,7 +128,15 @@ const Hero = () => {
         <source src="/assets/video/bg.mp4" type="video/mp4" />
       </video>
 
-      
+      {/* Tap to play overlay for iOS */}
+      {needsTap && (
+        <div
+          className="absolute inset-0 z-0 flex items-center justify-center bg-black/50"
+          onClick={handleTapToPlay}
+        >
+          <button className="text-white text-lg">Tap to Play</button>
+        </div>
+      )}
 
       {/* Headline */}
       <section className="relative z-10 flex flex-col justify-center min-h-screen px-4 -mt-10 md:px-12">
@@ -154,7 +156,6 @@ const Hero = () => {
               text-left break-normal md:break-words hyphens-none
             "
           >
-            {/* DREAM STAGE block with no mobile gap */}
             <span
               className="
                 cursor-target
@@ -166,16 +167,10 @@ const Hero = () => {
               "
             >
               <span className="hidden md:inline">DREAM STAGE</span>
-              
-
-              <span className="hidden md:inline">&nbsp;</span>
-
-              
+              <span className="hidden md:inline"> </span>
             </span>
             <span className="md:hidden sm:block">DREAM</span>
-              <span className="md:hidden sm:block pb-10">STAGE</span>
-
-
+            <span className="md:hidden sm:block pb-10">STAGE</span>
             <span className="block md:inline whitespace-nowrap cursor-target">WHERE</span>{" "}
             <span className="block md:inline whitespace-nowrap cursor-target">DREAMS</span>{" "}
             <span className="block md:inline whitespace-nowrap cursor-target">COME</span>{" "}
