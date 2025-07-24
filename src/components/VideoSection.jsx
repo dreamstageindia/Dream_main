@@ -61,6 +61,7 @@ const VideoSection = ({
           loop
           muted
           playsInline
+          webkit-playsinline="true"
         />
       </div>
 

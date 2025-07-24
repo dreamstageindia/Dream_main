@@ -128,20 +128,13 @@ const Hero = () => {
         loop
         playsInline
         poster="/assets/video/poster.jpg"
+        webkit-playsinline="true"
         crossOrigin="anonymous"
       >
         <source src="/assets/video/bg.mp4" type="video/mp4" />
       </video>
 
-      {/* Tap overlay if autoplay fails */}
-      {needsTap && (
-        <button
-          onClick={handleTapToPlay}
-          className="absolute inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-sm text-white text-lg font-semibold"
-        >
-          Tap to play
-        </button>
-      )}
+      
 
       {/* Headline */}
       <section className="relative z-10 flex flex-col justify-center min-h-screen px-4 -mt-10 md:px-12">
