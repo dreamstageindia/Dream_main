@@ -54,7 +54,7 @@ const VideoSection = ({
   return (
     <section
       ref={sectionRef}
-      className="relative w-screen h-screen shrink-0 overflow-hidden text-white bg-black snap-start sticky top-0"
+      className="relative w-screen h-screen shrink-0 overflow-hidden text-white bg-black snap-start  top-0"
     >
       {/* background: image on mobile, video on desktop */}
       <div className="absolute inset-0 z-0 pointer-events-none">
