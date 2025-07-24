@@ -6,12 +6,11 @@ import GridGlowDistort from "./GridGlowDistort";
 
 const VideoSection = ({
   videoSrc,
+  imageSrc,
   words = [],
-  pos = "lt",            // "lt" | "rb" | "lb" | "rt"
-  baseColor = "#ffffff",
-  hoverColor = "#ffffff",
-  showTint = false,      // <- keep as prop if you ever want it back
-  tintClass = "bg-black/40", // customizable
+  pos = "lt",       // "lt" | "rb" | "lb" | "rt"
+  baseColor = "#fff",
+  hoverColor = "#fff",
 }) => {
   const sectionRef   = useRef(null);
   const containerRef = useRef(null);
@@ -27,11 +26,8 @@ const VideoSection = ({
   const { place, textAlign } = alignments[pos] || alignments.lt;
 
   useEffect(() => {
-    const el   = sectionRef.current;
     const card = blockRef.current;
-
     gsap.set(card, { autoAlpha: 0, y: 20 });
-
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -42,8 +38,7 @@ const VideoSection = ({
       },
       { threshold: 0.5 }
     );
-
-    io.observe(el);
+    io.observe(sectionRef.current);
     return () => io.disconnect();
   }, []);
 
@@ -52,30 +47,33 @@ const VideoSection = ({
       ref={sectionRef}
       className="relative w-screen h-screen shrink-0 overflow-hidden text-white bg-black"
     >
-      {/* Video */}
+      {/* background: video on desktop, image on mobile */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <video
           src={videoSrc}
-          className="w-full h-full object-cover"
+          className="hidden sm:block w-full h-full object-cover"
           autoPlay
           loop
           muted
           playsInline
           webkit-playsinline="true"
         />
+        <img
+          src={imageSrc}
+          alt=""
+          className="block sm:hidden w-full h-full object-cover"
+        />
       </div>
 
-      {/* Grid glow */}
-      <div className="absolute inset-0 z-10 pointer-events-none">
+      {/* grid glow only on desktop */}
+      <div className="hidden sm:block absolute inset-0 z-10 pointer-events-none">
         <GridGlowDistort />
       </div>
 
-      {/* (Optional) tint overlay */}
-      {showTint && (
-        <div className={`absolute inset-0 z-15 ${tintClass} pointer-events-none`} />
-      )}
+      {/* tint */}
+      <div className="absolute inset-0 z-15 bg-black/40 pointer-events-none" />
 
-      {/* Interactive + text */}
+      {/* interactive text */}
       <div
         ref={containerRef}
         className="relative z-20 w-full h-full"
@@ -85,34 +83,27 @@ const VideoSection = ({
         onTouchEnd={() => setHover(false)}
       >
         <Crosshair containerRef={containerRef} color={hover ? hoverColor : baseColor} />
-
-        {/* TEXT ONLY */}
         <div
           ref={blockRef}
-          className={`absolute ${place} w-[90vw] max-w-[120vw] max-h-[calc(100vh-3rem)] overflow-hidden`}
+          className={`absolute ${place} w-[70vw] max-w-[70vw]`}
           style={{
             color: baseColor,
             textAlign,
             textShadow: "0 0 8px rgba(0,0,0,0.55)",
           }}
         >
-          <div className="overflow-y-auto overscroll-contain pr-1 custom-scrollbar">
-            <div
-              className="font-semibold uppercase break-words hyphens-auto leading-[1.05] sm:leading-[0.95]"
-              style={{
-                fontSize: "clamp(1.8rem, 9.75vw, 7.5rem)",
-                letterSpacing: "0.035em",
-                wordSpacing: "0.08em",
-                wordBreak: "break-word",
-                textWrap: "balance",
-              }}
-            >
-              {words.map((w, i) => (
-                <div key={i} className="whitespace-normal overflow-visible mb-[0.2em]">
-                  {w}
-                </div>
-              ))}
-            </div>
+          <div
+            className="font-semibold uppercase break-words hyphens-auto"
+            style={{
+              fontSize: "clamp(1.2rem, 7vw, 5rem)",
+              letterSpacing: "0.04em",
+              wordSpacing: "0.1em",
+              textAlign,
+            }}
+          >
+            {words.map((w, i) => (
+              <div key={i} className="mb-2">{w}</div>
+            ))}
           </div>
         </div>
       </div>

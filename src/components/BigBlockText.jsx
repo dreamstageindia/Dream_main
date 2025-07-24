@@ -1,6 +1,5 @@
 // src/components/BigBlockText.jsx
 import React, { useRef, useState, useEffect } from "react";
-import VariableProximity from "./VariableProximity";
 
 const BigBlockText = ({
   title,
@@ -29,7 +28,6 @@ const BigBlockText = ({
   const halfSize = (sizeStr) =>
     sizeStr.replace(/(\d*\.?\d+)([a-zA-Z%]+)/g, (_, num, unit) => {
       const half = 1;
-      // preserve up to 4 decimal places
       return `${Math.round(half * 10000) / 10000}${unit}`;
     });
 
@@ -51,15 +49,11 @@ const BigBlockText = ({
       className="w-screen px-6 md:px-12 relative z-10 space-y-6"
     >
       {title && (
-        <VariableProximity
-          label={title}
-          className="uppercase text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-4xl font-bold"
-          fromFontVariationSettings="'wght' 400, 'opsz' 9"
-          toFontVariationSettings="'wght' 1000, 'opsz' 40"
-          containerRef={containerRef}
-          radius={120}
-          falloff="linear"
-        />
+        <h2
+          className="uppercase text-white/10 bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-4xl font-bold"
+        >
+          {title}
+        </h2>
       )}
 
       {lines.map((line, idx) => (

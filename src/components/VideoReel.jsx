@@ -8,61 +8,67 @@ gsap.registerPlugin(ScrollTrigger);
 const slides = [
   {
     video: "/assets/video/1.mp4",
+    image: "/assets/image/c1.png",
     words: ["SPREADING", "HAPPINESS", "BY TURNING", "DREAMS", "INTO REALITY"],
     pos: "lt",
   },
   {
     video: "/assets/video/2.mp4",
+    image: "/assets/image/c2.png",
     words: ["HOME", "OF HAPPY", "CREATIVE", "HUMANS"],
     pos: "rb",
   },
   {
     video: "/assets/video/3.mp4",
+    image: "/assets/image/c3.png",
     words: ["MAKING", "CREATIVE CAREERS", "JOYFUL,", "DIGNIFIED", "AND DEPENDABLE"],
     pos: "lb",
   },
   {
     video: "/assets/video/4.mp4",
+    image: "/assets/image/c4.png",
     words: ["BUILDING", "THE WORLD’S", "LARGEST", "ARTIST COLLECTIVE"],
     pos: "rt",
   },
   {
     video: "/assets/video/5.mp4",
+    image: "/assets/image/c5.png",
     words: ["POWERED", "BY ARTISTS.", "UNITED", "BY STORIES."],
     pos: "lt",
   },
   {
     video: "/assets/video/6.mp4",
+    image: "/assets/image/c6.png",
     words: ["CURATE", "EXPERIENCES", "OF A KIND", "WITH US"],
     pos: "rb",
   },
   {
     video: "/assets/video/7.mp4",
+    image: "/assets/image/c7.png",
     words: ["ART+TECH+PURPOSE","=","THE NEXT", "BIG LEAP"],
     pos: "lb",
   },
 ];
 
-const HOLD = 0.5;         // seconds of “lock” in scroll space
-const SLIDE = 0.8;        // seconds to slide between panels (scroll space)
+const HOLD = 0.5;
+const SLIDE = 0.8;
 
 const VideoReel = () => {
-  const wrapRef = useRef(null);
+  const wrapRef  = useRef(null);
   const trackRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const track = trackRef.current;
+      const track  = trackRef.current;
       const panels = gsap.utils.toArray(".video-slide", track);
-      const vw = () => window.innerWidth;
+      const vw      = () => window.innerWidth;
 
-      // timeline to move track to each panel index
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: wrapRef.current,
           start: "top top",
-          end: () => "+=" + (panels.length * (HOLD + SLIDE) * 1000), // dummy total, not used for px
+          end: () => "+=" + panels.length * (HOLD + SLIDE) * 1000,
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -70,30 +76,25 @@ const VideoReel = () => {
         },
       });
 
-      panels.forEach((panel, i) => {
+      panels.forEach((_, i) => {
         const xTo = -i * vw();
-        // slide
         if (i === 0) {
-          // start at first
           tl.set(track, { x: 0 });
         } else {
           tl.to(track, { x: xTo, duration: SLIDE });
         }
-        // hold
-        tl.to({}, { duration: HOLD }); // dummy tween to "pause"
+        tl.to({}, { duration: HOLD });
       });
 
-      // refresh on resize
       const onResize = () => {
-        gsap.set(track, { x: -tl.progress() * (panels.length - 1) * vw() });
+        gsap.set(track, {
+          x: -tl.progress() * (panels.length - 1) * vw(),
+        });
         ScrollTrigger.refresh();
       };
       window.addEventListener("resize", onResize);
 
-      return () => {
-        window.removeEventListener("resize", onResize);
-        tl.kill();
-      };
+      return () => window.removeEventListener("resize", onResize);
     }, wrapRef);
     return () => ctx.revert();
   }, []);
@@ -103,7 +104,12 @@ const VideoReel = () => {
       <div ref={trackRef} className="flex h-full will-change-transform">
         {slides.map((s, i) => (
           <div className="video-slide w-screen h-screen shrink-0" key={i}>
-            <VideoSection videoSrc={s.video} words={s.words} pos={s.pos} />
+            <VideoSection
+              videoSrc={s.video}
+              imageSrc={s.image}
+              words={s.words}
+              pos={s.pos}
+            />
           </div>
         ))}
       </div>

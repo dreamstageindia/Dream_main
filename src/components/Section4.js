@@ -11,9 +11,22 @@ const Section4 = forwardRef((props, ref) => (
     <div className="relative z-10 mix-blend-difference text-white">
       <BigBlockText
         title="MISSION"
-        text={`To empower artists and curators through technology, community, and culture — making creative careers sustainable, respected, and accessible. We aim to impact 100 million lives by helping people recognize, teach, and build livelihoods in experiential creative spaces. We’re revolutionizing how talent is discovered, nurtured, and celebrated by offering a seamless space for collaboration, growth, and self-expression. Join us—your Dream Stage awaits!`}
-        fontSize = "3.0rem"
+        text={[
+          "We’re on a mission to impact 100 million lives by unlocking the power of creativity, teaching new skills, and enabling sustainable livelihoods in experiential spaces. ",
+        ]}
+        fontSize = "2.5rem"
       />
+<br/>
+      <BigBlockText
+      title={"To empower artists and curators through: "}
+      text={[
+        "Technology that simplifies discovery, gigs, and payments ",
+          "Community that uplifts and inspires ",
+          "Culture that celebrates diversity and individuality "
+      ]}
+      />
+
+      
     </div>
   </section>
 ));
