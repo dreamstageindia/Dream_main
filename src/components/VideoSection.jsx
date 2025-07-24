@@ -27,16 +27,25 @@ const VideoSection = ({
 
   useEffect(() => {
     const section = sectionRef.current;
-    gsap.set(section, { autoAlpha: 0 }); // Initialize as invisible
+    const text = blockRef.current;
+
+    // Initialize section and text as invisible
+    gsap.set(section, { autoAlpha: 0 });
+    gsap.set(text, { autoAlpha: 0, y: 20 });
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
+          // Fade in section and text
           gsap.to(section, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
+          gsap.to(text, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out", delay: 0.2 });
         } else {
+          // Fade out section and text
           gsap.to(section, { autoAlpha: 0, duration: 0.4, ease: "power2.in" });
+          gsap.to(text, { autoAlpha: 0, y: 20, duration: 0.4, ease: "power2.in" });
         }
       },
-      { threshold: 0.3 } // Lower threshold for earlier fade-in
+      { threshold: 0.5, rootMargin: isMobile ? "-20% 0px" : "0px" }
     );
     io.observe(section);
     return () => io.disconnect();
@@ -45,7 +54,7 @@ const VideoSection = ({
   return (
     <section
       ref={sectionRef}
-      className="relative w-screen h-screen shrink-0 overflow-hidden text-white bg-black snap-start"
+      className="relative w-screen h-screen shrink-0 overflow-hidden text-white bg-black snap-start sticky top-0"
     >
       {/* background: image on mobile, video on desktop */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -80,7 +89,7 @@ const VideoSection = ({
       <div
         ref={containerRef}
         className="relative z-20 w-full h-full"
-        onMouseEnter={() => !isMobile && setHover(true)} // Disable hover on mobile
+        onMouseEnter={() => !isMobile && setHover(true)}
         onMouseLeave={() => !isMobile && setHover(false)}
         onTouchStart={() => isMobile && setHover(true)}
         onTouchEnd={() => isMobile && setHover(false)}

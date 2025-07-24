@@ -1,4 +1,3 @@
-// src/components/Hero.jsx
 import React, { useRef, useLayoutEffect, useEffect, useState } from "react";
 import ScrambledText from "./ScrambledText";
 import GlassHeader from "./GlassHeader";
@@ -15,43 +14,59 @@ const isIOS = () =>
 
 const Hero = () => {
   const containerRef = useRef(null);
-  const videoRef     = useRef(null);
-  const headlineRef  = useRef(null);
+  const videoRef = useRef(null);
+  const headlineRef = useRef(null);
+  const imageRef = useRef(null);
 
   const [videoReady, setVideoReady] = useState(false);
-  const [needsTap, setNeedsTap]     = useState(false);
+  const [needsTap, setNeedsTap] = useState(false);
 
   const ios = isIOS();
   const fallbackImage = `/assets/image/cover.png`;
 
-  // GSAP pin + scrub
+  // GSAP pin + scrub with fade-in/fade-out
   useLayoutEffect(() => {
+    const isMobile = window.innerWidth <= 768;
     const ctx = gsap.context(() => {
+      // Initialize container as invisible
+      gsap.set(containerRef.current, { autoAlpha: 0 });
+
+      // Fade-in when component mounts
+      gsap.to(containerRef.current, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=200%",
+          end: isMobile ? "+=30%" : "+=200%",
           scrub: true,
           pin: true,
           anticipatePin: 1,
+          onLeave: () => {
+            gsap.to(containerRef.current, { autoAlpha: 0, duration: 0.4, ease: "power2.in" });
+          },
+          onEnterBack: () => {
+            gsap.to(containerRef.current, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
+          },
         },
       });
-      tl.to(
-        videoRef.current,
-        { scale: 1.5, ease: "none", transformOrigin: "center center" },
-        0
-      )
-        .to(
-          headlineRef.current,
-          { yPercent: -20, opacity: 0, ease: "none" },
-          0.1
-        )
-        .to(
-          containerRef.current,
-          { opacity: 0, ease: "none" },
-          0.9
+
+      if (!ios) {
+        tl.to(
+          videoRef.current,
+          { scale: 1.5, ease: "none", transformOrigin: "center center" },
+          0
         );
+      }
+      tl.to(
+        headlineRef.current,
+        { yPercent: -20, opacity: 0, ease: "none" },
+        0.1
+      ).to(
+        containerRef.current,
+        { opacity: 0, ease: "none" },
+        0.9
+      );
 
       gsap.from("#next-section", {
         scrollTrigger: {
@@ -66,7 +81,7 @@ const Hero = () => {
       });
     }, containerRef);
     return () => ctx.revert();
-  }, []);
+  }, [ios]);
 
   // Autoplay logic (skip on iOS)
   useEffect(() => {
@@ -117,37 +132,26 @@ const Hero = () => {
 
       {ios ? (
         <img
+          ref={imageRef}
           src={fallbackImage}
           alt="Background"
           className="absolute inset-0 w-full h-full object-cover -z-10"
         />
       ) : (
-        <>
-          <div
-            className={`absolute inset-0 -z-10 bg-black transition-opacity duration-500 ${
-              videoReady ? "opacity-0" : "opacity-100"
-            }`}
-          />
-          <video
-            ref={videoRef}
-            className={`absolute inset-0 w-full h-full object-cover -z-10 will-change-transform transition-opacity duration-500 ${
-              videoReady ? "opacity-100" : "opacity-0"
-            }`}
-            preload="auto"
-            autoPlay
-            loop
-            muted
-            playsInline
-            webkit-playsinline="true"
-            crossOrigin="anonymous"
-            poster={`/assets/image/cover.png`}
-          >
-            <source
-              src={`/assets/video/bg.mp4`}
-              type="video/mp4"
-            />
-          </video>
-        </>
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover -z-10 will-change-transform transition-opacity duration-500"
+          preload="auto"
+          autoPlay
+          loop
+          muted
+          playsInline
+          webkit-playsinline="true"
+          crossOrigin="anonymous"
+          poster={fallbackImage}
+        >
+          <source src={`/assets/video/bg.mp4`} type="video/mp4" />
+        </video>
       )}
 
       <section className="relative z-10 flex flex-col justify-center min-h-screen px-4 -mt-10 md:px-12">
@@ -157,7 +161,7 @@ const Hero = () => {
           radius={100}
           duration={1.2}
           speed={0.5}
-          scrambleChars=".:" 
+          scrambleChars=".:"
         >
           <h1
             className="
