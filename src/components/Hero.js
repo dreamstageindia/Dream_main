@@ -16,7 +16,7 @@ const Hero = () => {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const headlineRef = useRef(null);
-  const imageRef = useRef(null);
+  const imageRef = useRef(null); // Added ref for image
 
   const [videoReady, setVideoReady] = useState(false);
   const [needsTap, setNeedsTap] = useState(false);
@@ -26,7 +26,7 @@ const Hero = () => {
 
   // GSAP pin + scrub with fade-in/fade-out
   useLayoutEffect(() => {
-    const isMobile = window.innerWidth <= 768;
+    const isMobile = window.innerWidth <= 768; // Mobile breakpoint
     const ctx = gsap.context(() => {
       // Initialize container as invisible
       gsap.set(containerRef.current, { autoAlpha: 0 });
@@ -38,14 +38,16 @@ const Hero = () => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: isMobile ? "+=30%" : "+=200%",
+          end: isMobile ? "+=30%" : "+=200%", // Conditional end value
           scrub: true,
           pin: true,
           anticipatePin: 1,
           onLeave: () => {
+            // Fade-out when leaving viewport
             gsap.to(containerRef.current, { autoAlpha: 0, duration: 0.4, ease: "power2.in" });
           },
           onEnterBack: () => {
+            // Fade-in when scrolling back
             gsap.to(containerRef.current, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
           },
         },
@@ -138,20 +140,29 @@ const Hero = () => {
           className="absolute inset-0 w-full h-full object-cover -z-10"
         />
       ) : (
-        <video
-          ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover -z-10 will-change-transform transition-opacity duration-500"
-          preload="auto"
-          autoPlay
-          loop
-          muted
-          playsInline
-          webkit-playsinline="true"
-          crossOrigin="anonymous"
-          poster={fallbackImage}
-        >
-          <source src={`/assets/video/bg.mp4`} type="video/mp4" />
-        </video>
+        <>
+          <div
+            className={`absolute inset-0 -z-10  transition-opacity duration-500 ${
+              videoReady ? "opacity-0" : "opacity-100"
+            }`}
+          />
+          <video
+            ref={videoRef}
+            className={`absolute inset-0 w-full h-full object-cover -z-10 will-change-transform transition-opacity duration-500 ${
+              videoReady ? "opacity-100" : "opacity-0"
+            }`}
+            preload="auto"
+            autoPlay
+            loop
+            muted
+            playsInline
+            webkit-playsinline="true"
+            crossOrigin="anonymous"
+            poster={fallbackImage}
+          >
+            <source src={`/assets/video/bg.mp4`} type="video/mp4" />
+          </video>
+        </>
       )}
 
       <section className="relative z-10 flex flex-col justify-center min-h-screen px-4 -mt-10 md:px-12">

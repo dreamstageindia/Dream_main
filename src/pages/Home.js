@@ -103,7 +103,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className=" text-white ">
+    <div className=" text-white md:bg-black">
       <Hero />
     <div className=" text-white bg-black">
       <VideoReel />
