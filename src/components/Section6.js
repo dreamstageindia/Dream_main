@@ -40,7 +40,7 @@ const Section6 = forwardRef(function Section6(_, ref) {
         <BigBlockText title="Culture Rock" text="" />
         <BigBlockText title="" text="At Dream Stage, our foundation rests on six guiding values:" />
 
-        <div className="mt-12 grid gap-10 justify-items-center grid-cols-1 md:grid-cols-3">
+        <div className="mt-2 grid justify-items-center grid-cols-1 md:grid-cols-3">
           {cards.map(({ img, name, desc }, i) => (
             <motion.div
               key={i}

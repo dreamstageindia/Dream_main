@@ -1,4 +1,3 @@
-// src/components/VideoSection.jsx
 import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import Crosshair from "./Crosshair";
@@ -8,65 +7,69 @@ const VideoSection = ({
   videoSrc,
   imageSrc,
   words = [],
-  pos = "lt",       // "lt" | "rb" | "lb" | "rt"
+  pos = "lt", // "lt" | "rb" | "lb" | "rt"
   baseColor = "#fff",
   hoverColor = "#fff",
 }) => {
-  const sectionRef   = useRef(null);
+  const sectionRef = useRef(null);
   const containerRef = useRef(null);
-  const blockRef     = useRef(null);
+  const blockRef = useRef(null);
   const [hover, setHover] = useState(false);
+  const isMobile = window.innerWidth <= 768; // Mobile breakpoint
 
   const alignments = {
-    lt: { place: "top-6 left-6",     textAlign: "left"  },
+    lt: { place: "top-6 left-6", textAlign: "left" },
     rb: { place: "bottom-6 right-6", textAlign: "right" },
-    lb: { place: "bottom-6 left-6",  textAlign: "left"  },
-    rt: { place: "top-6 right-6",    textAlign: "right" },
+    lb: { place: "bottom-6 left-6", textAlign: "left" },
+    rt: { place: "top-6 right-6", textAlign: "right" },
   };
   const { place, textAlign } = alignments[pos] || alignments.lt;
 
   useEffect(() => {
-    const card = blockRef.current;
-    gsap.set(card, { autoAlpha: 0, y: 20 });
+    const section = sectionRef.current;
+    gsap.set(section, { autoAlpha: 0 }); // Initialize as invisible
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          gsap.to(card, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" });
+          gsap.to(section, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
         } else {
-          gsap.to(card, { autoAlpha: 0, y: 20, duration: 0.4, ease: "power2.in" });
+          gsap.to(section, { autoAlpha: 0, duration: 0.4, ease: "power2.in" });
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 } // Lower threshold for earlier fade-in
     );
-    io.observe(sectionRef.current);
+    io.observe(section);
     return () => io.disconnect();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative w-screen h-screen shrink-0 overflow-hidden text-white bg-black"
+      className="relative w-screen h-screen shrink-0 overflow-hidden text-white bg-black snap-start"
     >
-      {/* background: video on desktop, image on mobile */}
+      {/* background: image on mobile, video on desktop */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <video
-          src={videoSrc}
-          className="hidden sm:block w-full h-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          webkit-playsinline="true"
-        />
-        <img
-          src={imageSrc}
-          alt=""
-          className="block sm:hidden w-full h-full object-cover"
-        />
+        {isMobile ? (
+          <img
+            src={imageSrc}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <video
+            src={videoSrc}
+            className="w-full h-full object-cover"
+            autoPlay
+            loop
+            muted
+            playsInline
+            webkit-playsinline="true"
+          />
+        )}
       </div>
 
-      {/* grid glow only on desktop */}
-      <div className="hidden sm:block absolute inset-0 z-10 pointer-events-none">
+      {/* grid glow on all devices */}
+      <div className="absolute inset-0 z-10 pointer-events-none">
         <GridGlowDistort />
       </div>
 
@@ -77,10 +80,10 @@ const VideoSection = ({
       <div
         ref={containerRef}
         className="relative z-20 w-full h-full"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onTouchStart={() => setHover(true)}
-        onTouchEnd={() => setHover(false)}
+        onMouseEnter={() => !isMobile && setHover(true)} // Disable hover on mobile
+        onMouseLeave={() => !isMobile && setHover(false)}
+        onTouchStart={() => isMobile && setHover(true)}
+        onTouchEnd={() => isMobile && setHover(false)}
       >
         <Crosshair containerRef={containerRef} color={hover ? hoverColor : baseColor} />
         <div

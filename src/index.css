@@ -83,3 +83,14 @@ html, body {
   border: 2px solid white;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
+
+#home {
+  scroll-snap-type: y mandatory;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.video-slide,
+section.snap-start {
+  scroll-snap-align: start;
+}

@@ -1,8 +1,8 @@
-// src/components/VideoReelHorizontal.jsx
 import React, { useRef, useLayoutEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import VideoSection from "./VideoSection";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const slides = [
@@ -45,65 +45,75 @@ const slides = [
   {
     video: "/assets/video/7.mp4",
     image: "/assets/image/c7.png",
-    words: ["ART+TECH+PURPOSE","=","THE NEXT", "BIG LEAP"],
+    words: ["ART+TECH+PURPOSE", "=", "THE NEXT", "BIG LEAP"],
     pos: "lb",
   },
 ];
 
 const HOLD = 0.9;
-const SLIDE = 0.1;
+const SLIDE = 0.8;
 
 const VideoReel = () => {
-  const wrapRef  = useRef(null);
+  const wrapRef = useRef(null);
   const trackRef = useRef(null);
 
   useLayoutEffect(() => {
+    const isMobile = window.innerWidth <= 768; // Mobile breakpoint
     const ctx = gsap.context(() => {
-      const track  = trackRef.current;
-      const panels = gsap.utils.toArray(".video-slide", track);
-      const vw      = () => window.innerWidth;
+      if (!isMobile) {
+        // Desktop: Horizontal scrolling
+        const track = trackRef.current;
+        const panels = gsap.utils.toArray(".video-slide", track);
+        const vw = () => window.innerWidth;
 
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: wrapRef.current,
-          start: "top top",
-          end: () => "+=" + panels.length * (HOLD + SLIDE) * 1000,
-          scrub: true,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      panels.forEach((_, i) => {
-        const xTo = -i * vw();
-        if (i === 0) {
-          tl.set(track, { x: 0 });
-        } else {
-          tl.to(track, { x: xTo, duration: SLIDE });
-        }
-        tl.to({}, { duration: HOLD });
-      });
-
-      const onResize = () => {
-        gsap.set(track, {
-          x: -tl.progress() * (panels.length - 1) * vw(),
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: wrapRef.current,
+            start: "top top",
+            end: () => "+=" + panels.length * (HOLD + SLIDE) * 1000,
+            scrub: true,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
         });
-        ScrollTrigger.refresh();
-      };
-      window.addEventListener("resize", onResize);
 
-      return () => window.removeEventListener("resize", onResize);
+        panels.forEach((_, i) => {
+          const xTo = -i * vw();
+          if (i === 0) {
+            tl.set(track, { x: 0 });
+          } else {
+            tl.to(track, { x: xTo, duration: SLIDE });
+          }
+          tl.to({}, { duration: HOLD });
+        });
+
+        const onResize = () => {
+          gsap.set(track, {
+            x: -tl.progress() * (panels.length - 1) * vw(),
+          });
+          ScrollTrigger.refresh();
+        };
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+      } else {
+        // Mobile: Reset GSAP for vertical scrolling
+        gsap.set(trackRef.current, { x: 0, clearProps: "all" });
+        ScrollTrigger.getAll().forEach((st) => st.kill());
+      }
     }, wrapRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={wrapRef} className="relative h-screen overflow-hidden" id="home">
-      <div ref={trackRef} className="flex h-full will-change-transform">
+    <div ref={wrapRef} className="relative h-auto md:h-screen overflow-hidden" id="home">
+      <div ref={trackRef} className="flex flex-col md:flex-row h-auto md:h-full will-change-transform">
         {slides.map((s, i) => (
-          <div className="video-slide w-screen h-screen shrink-0" key={i}>
+          <div
+            className="video-slide w-screen h-screen shrink-0 snap-start"
+            key={i}
+          >
             <VideoSection
               videoSrc={s.video}
               imageSrc={s.image}
