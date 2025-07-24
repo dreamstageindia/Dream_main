@@ -1,4 +1,3 @@
-// src/components/Hero.jsx
 import React, { useRef, useLayoutEffect, useEffect, useState } from "react";
 import ScrambledText from "./ScrambledText";
 import GlassHeader from "./GlassHeader";
@@ -15,23 +14,24 @@ const isIOS = () =>
 
 const Hero = () => {
   const containerRef = useRef(null);
-  const videoRef     = useRef(null);
-  const headlineRef  = useRef(null);
+  const videoRef = useRef(null);
+  const headlineRef = useRef(null);
 
   const [videoReady, setVideoReady] = useState(false);
-  const [needsTap, setNeedsTap]     = useState(false);
+  const [needsTap, setNeedsTap] = useState(false);
 
   const ios = isIOS();
   const fallbackImage = `/assets/image/cover.png`;
 
   // GSAP pin + scrub
   useLayoutEffect(() => {
+    const isMobile = window.innerWidth <= 768; // Mobile breakpoint
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=200%",
+          end: isMobile ? "+=30%" : "+=200%", // Conditional end value
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -157,7 +157,7 @@ const Hero = () => {
           radius={100}
           duration={1.2}
           speed={0.5}
-          scrambleChars=".:" 
+          scrambleChars=".:"
         >
           <h1
             className="

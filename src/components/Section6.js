@@ -24,7 +24,7 @@ const Section6 = forwardRef(function Section6(_, ref) {
   return (
     <section
       ref={ref}
-      className="relative w-screen min-h-screen  text-white flex items-center justify-center px-4 md:px-8 lg:px-16 mt-7 overflow-hidden"
+      className="relative w-screen min-h-screen  text-white flex items-center justify-center px-4 md:px-8 lg:px-16 mt-7 overflow-hidden p-2"
     >
       {/* ✨ Background animation */}
       <BackgroundBlobs

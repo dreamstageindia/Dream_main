@@ -50,8 +50,8 @@ const slides = [
   },
 ];
 
-const HOLD = 0.5;
-const SLIDE = 0.8;
+const HOLD = 0.9;
+const SLIDE = 0.1;
 
 const VideoReel = () => {
   const wrapRef  = useRef(null);
