@@ -35,8 +35,6 @@ const Section7 = forwardRef(function Section7(_, ref) {
         colors={["#6EE7F9", "#A78BFA", "#F472B6", "#FDE68A", "#34D399"]}
         opacity={0.5}
       />
-
-     
     </section>
   );
 });

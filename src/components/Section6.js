@@ -3,7 +3,7 @@ import React, { forwardRef } from "react";
 import { motion } from "framer-motion";
 import BigBlockText from "./BigBlockText";
 import PixelTransition from "./PixelTransition";
-import BackgroundBlobs from "./BackgroundBlobs"; // <— import
+import BackgroundBlobs from "./BackgroundBlobs";
 
 const cards = [
   { img: "/assets/image/1.png", name: "Happiness",     desc: "Work should bring joy, not dread." },
@@ -24,7 +24,13 @@ const Section6 = forwardRef(function Section6(_, ref) {
   return (
     <section
       ref={ref}
-      className="relative w-screen min-h-screen  text-white flex items-center justify-center px-4 md:px-8 lg:px-16 mt-7 overflow-hidden p-2"
+      className="
+        relative w-screen h-auto text-white
+        flex flex-col items-center
+        px-4 md:px-8 lg:px-16
+         overflow-visible
+        py-12 md:py-20
+      "
     >
       {/* ✨ Background animation */}
       <BackgroundBlobs
@@ -36,15 +42,15 @@ const Section6 = forwardRef(function Section6(_, ref) {
         opacity={0.5}
       />
 
-      <div className="relative z-10 mix-blend-difference w-full max-w-full mx-auto">
+      <div className="relative z-10 mix-blend-difference w-full max-w-6xl mx-auto">
         <BigBlockText title="Culture Rock" text="" />
         <BigBlockText title="" text="At Dream Stage, our foundation rests on six guiding values:" />
 
-        <div className="mt-2 grid justify-items-center grid-cols-1 md:grid-cols-3">
+        <div className="mt-8 grid gap-y-12 justify-items-center grid-cols-1 md:grid-cols-3">
           {cards.map(({ img, name, desc }, i) => (
             <motion.div
               key={i}
-              className="flex flex-col items-center w-full"
+              className="flex flex-col items-center w-full px-4"
               variants={fadeVariant}
               initial="hidden"
               whileInView="visible"
@@ -57,10 +63,10 @@ const Section6 = forwardRef(function Section6(_, ref) {
                       src={img}
                       alt={name}
                       loading="lazy"
-                      className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                      className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0 will-change-opacity"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+                      transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
                     />
                   }
                   secondContent={
@@ -70,16 +76,18 @@ const Section6 = forwardRef(function Section6(_, ref) {
                       </p>
                     </div>
                   }
-                  gridSizeMobile={6}
-                  gridSizeTablet={9}
-                  gridSizeDesktop={12}
+                  // **Reduced** grid sizes for speed
+                  gridSizeMobile={4}
+                  gridSizeTablet={6}
+                  gridSizeDesktop={8}
                   pixelColor="#ffffff"
-                  animationStepDuration={0.45}
-                  className="w-56 sm:w-64 md:w-1/2 lg:w-1/2 aspect-[4/5] sm:aspect-square mx-auto"
+                  // **Faster** step duration
+                  animationStepDuration={0.25}
+                  className="w-56 sm:w-64 md:w-1/2 lg:w-1/2 aspect-[4/5] sm:aspect-square mx-auto will-change-transform"
                 />
               </div>
 
-              <h4 className="mt-4 text-center text-sm sm:text-base md:text-lg font-bold tracking-wide">
+              <h4 className="mt-4 text-center sm:text-base md:text-lg font-bold tracking-wide text-pink-500 text-2xl uppercase">
                 {name}
               </h4>
             </motion.div>
