@@ -41,10 +41,10 @@ const Section6 = forwardRef(function Section6(_, ref) {
         colors={["#6EE7F9", "#A78BFA", "#F472B6", "#FDE68A", "#34D399"]}
         opacity={0.5}
       />
-
-      <div className="relative z-10 mix-blend-difference w-full max-w-6xl mx-auto">
-        <BigBlockText title="Culture Rock" text="" />
+<BigBlockText title="Culture Rock" text="" />
         <BigBlockText title="" text="At Dream Stage, our foundation rests on six guiding values:" />
+      <div className="relative z-10 mix-blend-difference w-full max-w-6xl mx-auto">
+        
 
         <div className="mt-8 grid gap-y-12 justify-items-center grid-cols-1 md:grid-cols-3">
           {cards.map(({ img, name, desc }, i) => (

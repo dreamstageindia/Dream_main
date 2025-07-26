@@ -1,9 +1,21 @@
 // src/components/Section6.jsx
 import React from "react";
+import MagicBento from "./MagicBento";
 export default function Section11() {
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-black text-white">
-      <h2 className="text-4xl md:text-6xl font-bold">Section 11</h2>
+      <MagicBento
+  textAutoHide={true}
+  enableStars={true}
+  enableSpotlight={true}
+  enableBorderGlow={true}
+  enableTilt={true}
+  enableMagnetism={true}
+  clickEffect={true}
+  spotlightRadius={300}
+  particleCount={12}
+  glowColor="132, 0, 255"
+/>
     </div>
   );
 }

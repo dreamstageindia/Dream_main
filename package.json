@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-three/drei": "^10.6.0",
+    "@react-three/fiber": "^8.18.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -20,7 +22,10 @@
     "react-router": "^7.5.3",
     "react-router-dom": "^6.30.0",
     "react-scripts": "5.0.1",
-    "three": "^0.178.0",
+    "react-scroll-motion": "^0.3.5",
+    "styled-components": "^6.1.19",
+    "three": "^0.162.0",
+    "three-mesh-bvh": "^0.6.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -48,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "tailwindcss": "^3.4.9"
   }
 }

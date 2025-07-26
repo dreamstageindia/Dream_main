@@ -129,7 +129,7 @@ const Hero = () => {
       onClick={handleTapToPlay}
       onTouchStart={handleTapToPlay}
     >
-      <TargetCursor spinDuration={2} hideDefaultCursor={false} />
+      <TargetCursor spinDuration={2} hideDefaultCursor={false} className="hidden md:block"/>
       <GlassHeader />
 
       {ios ? (

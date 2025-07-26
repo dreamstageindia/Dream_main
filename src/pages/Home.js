@@ -15,6 +15,8 @@ import Section9 from "../components/Section9";
 import Section10 from "../components/Section10";
 import Section11 from "../components/Section11.jsx";
 import VideoReel from "../components/VideoReel.jsx";
+import MotivationPage from "../components/MotivationPage.jsx";
+import CircularGal from "../components/CircularGal.js";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -120,6 +122,22 @@ const Home = () => {
       </div>
       <div className="hsec shrink-0 w-screen h-auto bg-black">
             <Section6 />
+      </div>
+      <div className="hsec shrink-0 w-screen  bg-black">
+            <Section8 />
+      </div>
+      <div className="hsec shrink-0 w-screen ">
+            <Section9 />
+      </div>
+      <div className="hsec shrink-0 w-screen ">
+            <Section10 />
+      </div>
+      
+      <div className="hsec shrink-0 w-screen ">
+            <MotivationPage />
+      </div>
+      <div className="hsec shrink-0 w-screen ">
+            <CircularGal />
       </div>
     </div>
   );
