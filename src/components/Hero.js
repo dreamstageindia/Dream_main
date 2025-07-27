@@ -16,59 +16,44 @@ const Hero = () => {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const headlineRef = useRef(null);
-  const imageRef = useRef(null); // Added ref for image
 
   const [videoReady, setVideoReady] = useState(false);
   const [needsTap, setNeedsTap] = useState(false);
 
   const ios = isIOS();
-  const fallbackImage = `/assets/image/cover.png`;
+  const fallbackImage = "/assets/image/cover.png";
 
   // GSAP pin + scrub with fade-in/fade-out
   useLayoutEffect(() => {
-    const isMobile = window.innerWidth <= 768; // Mobile breakpoint
+    const isMobile = window.innerWidth <= 768;
     const ctx = gsap.context(() => {
-      // Initialize container as invisible
       gsap.set(containerRef.current, { autoAlpha: 0 });
-
-      // Fade-in when component mounts
       gsap.to(containerRef.current, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: isMobile ? "+=30%" : "+=200%", // Conditional end value
-          scrub: true,
-          pin: true,
-          anticipatePin: 1,
-          onLeave: () => {
-            // Fade-out when leaving viewport
-            gsap.to(containerRef.current, { autoAlpha: 0, duration: 0.4, ease: "power2.in" });
+      const tl = gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: isMobile ? "+=30%" : "+=200%",
+            scrub: true,
+            pin: true,
+            anticipatePin: 1,
+            onLeave: () => {
+              gsap.to(containerRef.current, { autoAlpha: 0, duration: 0.4, ease: "power2.in" });
+            },
+            onEnterBack: () => {
+              gsap.to(containerRef.current, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
+            },
           },
-          onEnterBack: () => {
-            // Fade-in when scrolling back
-            gsap.to(containerRef.current, { autoAlpha: 1, duration: 0.6, ease: "power2.out" });
-          },
-        },
-      });
-
-      if (!ios) {
-        tl.to(
-          videoRef.current,
+        })
+        .to(
+          !ios ? videoRef.current : {},
           { scale: 1.5, ease: "none", transformOrigin: "center center" },
           0
-        );
-      }
-      tl.to(
-        headlineRef.current,
-        { yPercent: -20, opacity: 0, ease: "none" },
-        0.1
-      ).to(
-        containerRef.current,
-        { opacity: 0, ease: "none" },
-        0.9
-      );
+        )
+        .to(headlineRef.current, { yPercent: -20, opacity: 0, ease: "none" }, 0.1)
+        .to(containerRef.current, { opacity: 0, ease: "none" }, 0.9);
 
       gsap.from("#next-section", {
         scrollTrigger: {
@@ -82,10 +67,11 @@ const Hero = () => {
         clearProps: "all",
       });
     }, containerRef);
+
     return () => ctx.revert();
   }, [ios]);
 
-  // Autoplay logic (skip on iOS)
+  // Autoplay & tap-to-play logic
   useEffect(() => {
     if (ios) return;
     const v = videoRef.current;
@@ -117,9 +103,7 @@ const Hero = () => {
         setNeedsTap(false);
         setVideoReady(true);
       })
-      .catch((e) => {
-        console.error("Play error:", e);
-      });
+      .catch((e) => console.error("Play error:", e));
   };
 
   return (
@@ -129,40 +113,33 @@ const Hero = () => {
       onClick={handleTapToPlay}
       onTouchStart={handleTapToPlay}
     >
-      <TargetCursor spinDuration={2} hideDefaultCursor={false} className="hidden md:block"/>
+      <TargetCursor spinDuration={2} hideDefaultCursor={false} className="hidden md:block" />
       <GlassHeader />
 
+      {/* Background: static image on iOS, video elsewhere */}
       {ios ? (
         <img
-          ref={imageRef}
           src={fallbackImage}
           alt="Background"
           className="absolute inset-0 w-full h-full object-cover -z-10"
         />
       ) : (
-        <>
-          <div
-            className={`absolute inset-0 -z-10  transition-opacity duration-500 ${
-              videoReady ? "opacity-0" : "opacity-100"
-            }`}
-          />
-          <video
-            ref={videoRef}
-            className={`absolute inset-0 w-full h-full object-cover -z-10 will-change-transform transition-opacity duration-500 ${
-              videoReady ? "opacity-100" : "opacity-0"
-            }`}
-            preload="auto"
-            autoPlay
-            loop
-            muted
-            playsInline
-            webkit-playsinline="true"
-            crossOrigin="anonymous"
-            poster={fallbackImage}
-          >
-            <source src={`/assets/video/bg.mp4`} type="video/mp4" />
-          </video>
-        </>
+        <video
+          ref={videoRef}
+          className={`absolute inset-0 w-full h-full object-cover -z-10 will-change-transform transition-opacity duration-500 ${
+            videoReady ? "opacity-100" : "opacity-0"
+          }`}
+          preload="auto"
+          autoPlay
+          loop
+          muted
+          playsInline
+          webkit-playsinline="true"
+          crossOrigin="anonymous"
+          poster={fallbackImage}
+        >
+          <source src="/assets/video/bg.mp4" type="video/mp4" />
+        </video>
       )}
 
       <section className="relative z-10 flex flex-col justify-center min-h-screen px-4 -mt-10 md:px-12">
@@ -174,26 +151,9 @@ const Hero = () => {
           speed={0.5}
           scrambleChars=".:"
         >
-          <h1
-            className="
-              font-bold uppercase !text-white/90
-              leading-[0.85] md:leading-[0.9]
-              text-[24vw] sm:text-[20vw] md:text-[12vw] lg:text-[9rem]
-              text-left break-normal md:break-words hyphens-none
-            "
-          >
-            <span
-              className="
-                cursor-target
-                flex md:inline
-                items-baseline
-                gap-0
-                mb-0 md:mb-14
-                whitespace-nowrap
-              "
-            >
+          <h1 className="font-bold uppercase !text-white/90 leading-[0.85] md:leading-[0.9] text-[24vw] sm:text-[20vw] md:text-[12vw] lg:text-[9rem] text-left break-normal md:break-words hyphens-none">
+            <span className="cursor-target flex md:inline items-baseline gap-0 mb-0 md:mb-14 whitespace-nowrap">
               <span className="hidden md:inline">DREAM STAGE</span>
-              <span className="hidden md:inline"> </span>
             </span>
             <span className="md:hidden sm:block">DREAM</span>
             <span className="md:hidden sm:block pb-10">STAGE</span>
