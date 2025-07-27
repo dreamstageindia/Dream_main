@@ -1,5 +1,5 @@
 // src/pages/Home.jsx
-import React, { useRef, useLayoutEffect, useEffect } from "react";
+import React, { useRef, useLayoutEffect, useEffect, useState } from "react";
 import Hero from "../components/Hero";
 import Section2 from "../components/Section2";
 import Section3 from "../components/Section3";
@@ -17,11 +17,13 @@ import Section11 from "../components/Section11.jsx";
 import VideoReel from "../components/VideoReel.jsx";
 import MotivationPage from "../components/MotivationPage.jsx";
 import CircularGal from "../components/CircularGal.js";
+import Intro from "../components/Intro.jsx";
 
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
+  const [showIntro, setShowIntro] = useState(true);
   // pinned stack
   const pinWrapRef = useRef(null);
   const sec2Ref = useRef(null);
@@ -34,6 +36,7 @@ const Home = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      if (showIntro) return; 
       /* -------- Sections 2→3→4 (vertical pinned) -------- */
       const HOLD = 0.100;
 
@@ -95,7 +98,7 @@ const Home = () => {
     });
 
     return () => ctx.revert();
-  }, []);
+  }, [showIntro]);
 
   // ensure correct sizes after load
   useEffect(() => {
@@ -103,6 +106,10 @@ const Home = () => {
     window.addEventListener("load", onLoad);
     return () => window.removeEventListener("load", onLoad);
   }, []);
+
+  if (showIntro) {
+    return <Intro onFinish={() => setShowIntro(false)} />;
+  }
 
   return (
     <div className=" text-white md:bg-black">
@@ -123,20 +130,20 @@ const Home = () => {
       <div className="hsec shrink-0 w-screen h-auto bg-black">
             <Section6 />
       </div>
-      <div className="hsec shrink-0 w-screen  bg-black">
+      <div className="hsec shrink-0 w-screen h-auto  bg-black">
             <Section8 />
       </div>
-      <div className="hsec shrink-0 w-screen ">
+      <div className="hsec shrink-0 w-screen h-auto ">
             <Section9 />
       </div>
-      <div className="hsec shrink-0 w-screen ">
+      <div className="hsec shrink-0 w-screen h-auto ">
             <Section10 />
       </div>
       
-      <div className="hsec shrink-0 w-screen ">
+      <div className="hsec shrink-0 w-screen h-auto ">
             <MotivationPage />
       </div>
-      <div className="hsec shrink-0 w-screen ">
+      <div className="hsec shrink-0 w-screen h-auto bg-black">
             <CircularGal />
       </div>
     </div>

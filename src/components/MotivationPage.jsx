@@ -13,7 +13,7 @@ const MotivationContainer = styled.div`
 const Title = styled(motion.h1)`
   font-size: 8rem;
   font-weight: 900;
-  color: #ff0000;
+  color: purple;
   margin: 0 0 20px;
   line-height: 0.8;
   text-transform: uppercase;

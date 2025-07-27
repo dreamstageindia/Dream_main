@@ -10,7 +10,6 @@ import React, {
 } from "react";
 import gsap from "gsap";
 
-// Single card wrapper
 export const Card = forwardRef(
   ({ customClass, ...rest }, ref) => (
     <div
@@ -18,18 +17,17 @@ export const Card = forwardRef(
       {...rest}
       className={`
         absolute top-1/2 left-1/2
-        rounded-xl border border-white bg-black
+        rounded-xl border border-white/30 bg-black
         [transform-style:preserve-3d]
         [will-change:transform]
         [backface-visibility:hidden]
-        ${customClass ?? ""} ${rest.className ?? ""}
-      `.trim()}
+        ${customClass} ${rest.className || ""}
+      `}
     />
   )
 );
 Card.displayName = "Card";
 
-// compute slot positions
 const makeSlot = (i, distX, distY, total) => ({
   x: i * distX,
   y: -i * distY,
@@ -37,7 +35,6 @@ const makeSlot = (i, distX, distY, total) => ({
   zIndex: total - i,
 });
 
-// apply a slot to an element
 const placeNow = (el, slot, skew) =>
   gsap.set(el, {
     x: slot.x,
@@ -52,18 +49,14 @@ const placeNow = (el, slot, skew) =>
   });
 
 const CardSwap = ({
-  width = 500,
-  height = 400,
   cardDistance = 60,
   verticalDistance = 70,
   delay = 3000,
   pauseOnHover = false,
-  onCardClick,
   skewAmount = 9,
   easing = "elastic",
   children,
 }) => {
-  // timing config
   const config =
     easing === "elastic"
       ? {
@@ -71,7 +64,7 @@ const CardSwap = ({
           durDrop: 2,
           durMove: 2,
           durReturn: 2,
-          promoteOverlap: 0.9,
+          overlap: 0.9,
           returnDelay: 0.05,
         }
       : {
@@ -79,23 +72,16 @@ const CardSwap = ({
           durDrop: 0.8,
           durMove: 0.8,
           durReturn: 0.8,
-          promoteOverlap: 0.45,
+          overlap: 0.45,
           returnDelay: 0.2,
         };
 
-  // flatten children into array
   const childArr = useMemo(() => Children.toArray(children), [children]);
-  // create refs
-  const refs = useMemo(
-    () => childArr.map(() => React.createRef()),
-    [childArr.length]
-  );
-  // current order array of indices
+  const refs = useMemo(() => childArr.map(() => React.createRef()), [childArr]);
   const order = useRef(childArr.map((_, i) => i));
-  const intervalRef = useRef();
+  const interval = useRef();
   const container = useRef(null);
 
-  // position all cards according to order.current
   const layout = () => {
     const total = refs.length;
     order.current.forEach((cardIdx, slotIdx) => {
@@ -107,131 +93,77 @@ const CardSwap = ({
     });
   };
 
-  // The standard drop/promote/return cycle, for a given frontIndex
-  const animateCycle = (frontIndex, callback) => {
+  const animateCycle = (frontIndex, onEnd) => {
     const total = refs.length;
     const frontEl = refs[frontIndex].current;
     const rest = order.current.filter((i) => i !== frontIndex);
-
     const tl = gsap.timeline({ defaults: { ease: config.ease } });
-    // drop the front card
-    tl.to(frontEl, { y: "+=500", duration: config.durDrop });
-    // promote the others during the drop
-    tl.addLabel("promote", `-=${config.durDrop * config.promoteOverlap}`);
-    rest.forEach((idx, i) => {
-      const el = refs[idx].current;
-      const slot = makeSlot(i, cardDistance, verticalDistance, total);
-      tl.set(el, { zIndex: slot.zIndex }, "promote");
-      tl.to(
-        el,
-        {
-          x: slot.x,
-          y: slot.y,
-          z: slot.z,
-          duration: config.durMove,
-        },
-        `promote+=${i * 0.15}`
-      );
-    });
-    // return front to the back slot
-    const backSlot = makeSlot(total - 1, cardDistance, verticalDistance, total);
-    tl.addLabel("return", `promote+=${config.durMove * config.returnDelay}`);
-    tl.call(() => {
-      gsap.set(frontEl, { zIndex: backSlot.zIndex });
-    }, null, "return");
-    tl.set(frontEl, { x: backSlot.x, z: backSlot.z }, "return");
-    tl.to(
-      frontEl,
-      {
-        y: backSlot.y,
-        duration: config.durReturn,
-      },
-      "return"
-    );
-    // at the end, reorder the array
-    tl.call(() => {
-      order.current = [...rest, frontIndex];
-      callback && callback();
-    });
+
+    tl.to(frontEl, { y: "+=500", duration: config.durDrop })
+      .addLabel("promote", `-=${config.durDrop * config.overlap}`)
+      .call(() => {
+        rest.forEach((idx, i) => {
+          const el = refs[idx].current;
+          const slot = makeSlot(i, cardDistance, verticalDistance, total);
+          gsap.set(el, { zIndex: slot.zIndex });
+          gsap.to(el, { x: slot.x, y: slot.y, z: slot.z, duration: config.durMove, delay: i * 0.15 });
+        });
+      }, null, "promote")
+      .addLabel("return", `promote+=${config.durMove * config.returnDelay}`)
+      .call(() => {
+        const backSlot = makeSlot(total - 1, cardDistance, verticalDistance, total);
+        gsap.set(frontEl, { zIndex: backSlot.zIndex, x: backSlot.x, z: backSlot.z });
+        gsap.to(frontEl, { y: backSlot.y, duration: config.durReturn });
+      }, null, "return")
+      .call(() => {
+        order.current = [...rest, frontIndex];
+        onEnd && onEnd();
+      });
   };
 
   useEffect(() => {
     layout();
-
     const cycle = () => animateCycle(order.current[0]);
     cycle();
-    intervalRef.current = setInterval(cycle, delay);
+    interval.current = setInterval(cycle, delay);
 
-    if (pauseOnHover) {
-      const n = container.current;
-      const pause = () => clearInterval(intervalRef.current);
-      const resume = () => (intervalRef.current = setInterval(cycle, delay));
-      n.addEventListener("mouseenter", pause);
-      n.addEventListener("mouseleave", resume);
+    if (pauseOnHover && container.current) {
+      const el = container.current;
+      el.addEventListener("mouseenter", () => clearInterval(interval.current));
+      el.addEventListener("mouseleave", () => (interval.current = setInterval(cycle, delay)));
       return () => {
-        n.removeEventListener("mouseenter", pause);
-        n.removeEventListener("mouseleave", resume);
-        clearInterval(intervalRef.current);
+        el.removeEventListener("mouseenter", () => clearInterval(interval.current));
+        el.removeEventListener("mouseleave", () => (interval.current = setInterval(cycle, delay)));
       };
     }
-
-    return () => clearInterval(intervalRef.current);
+    return () => clearInterval(interval.current);
   }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
 
-  // click handler → trigger a manual cycle with the clicked card
-  const handleClick = (clickedIndex) => {
-    clearInterval(intervalRef.current);
-    // if click is already the front, do nothing
-    if (order.current[0] === clickedIndex) {
-      intervalRef.current = setInterval(() => animateCycle(order.current[0]), delay);
-      return;
+  const handleClick = (i) => {
+    clearInterval(interval.current);
+    if (order.current[0] !== i) {
+      order.current = [i, ...order.current.filter((x) => x !== i)];
+      layout();
+      animateCycle(i, () => (interval.current = setInterval(() => animateCycle(order.current[0]), delay)));
+    } else {
+      interval.current = setInterval(() => animateCycle(order.current[0]), delay);
     }
-    // re‐layout so clicked element moves into front slot
-    // build new order where clicked is first, but keep relative order
-    order.current = [
-      clickedIndex,
-      ...order.current.filter((i) => i !== clickedIndex),
-    ];
-    layout();
-    // then run the same cycle on it
-    animateCycle(clickedIndex, () => {
-      // then resume the auto‐cycle with the next front
-      intervalRef.current = setInterval(
-        () => animateCycle(order.current[0]),
-        delay
-      );
-    });
-    onCardClick?.(clickedIndex);
   };
-
-  // render with click handlers attached
-  const rendered = childArr.map((child, i) =>
-    isValidElement(child)
-      ? cloneElement(child, {
-          key: i,
-          ref: refs[i],
-          style: { width, height, ...(child.props.style ?? {}) },
-          onClick: (e) => {
-            child.props.onClick?.(e);
-            handleClick(i);
-          },
-        })
-      : child
-  );
 
   return (
     <div
       ref={container}
-      className="
-        absolute inset-0
-        flex items-center justify-end
-        perspective-[900px]
-        overflow-visible
-        px-6 md:px-12 lg:px-20
-      "
-      style={{ width, height }}
+      className="relative w-full h-full flex items-center justify-center perspective-[900px] overflow-visible"
     >
-      {rendered}
+      {childArr.map((child, i) =>
+        isValidElement(child)
+          ? cloneElement(child, {
+              key: i,
+              ref: refs[i],
+              onClick: () => handleClick(i),
+            })
+          : child
+      )}
     </div>
   );
 };

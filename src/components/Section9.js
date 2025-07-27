@@ -70,7 +70,7 @@ export default function Section9() {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen relative overflow-hidden bg-black splash-container">
+    <div className="flex flex-col justify-center items-center min-h-auto relative overflow-hidden bg-black splash-container">
       <style jsx>{`
         .splash-container::before,
         .splash-container::after {
