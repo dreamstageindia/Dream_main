@@ -273,10 +273,9 @@ class Media {
     if (screen) this.screen = screen;
     if (viewport) this.viewport = viewport;
     this.scale = this.screen.height / 1500;
-    this.plane.scale.y =
-      (this.viewport.height * 900 * this.scale) / this.screen.height;
-    this.plane.scale.x =
-      (this.viewport.width * 700 * this.scale) / this.screen.width;
+    // Compute a single size based on height, then use it for both axes:
+    const size = (this.viewport.height * 900 * this.scale) / this.screen.height;
+    this.plane.scale.set(size, size, 1);
     this.program.uniforms.uPlaneSizes.value = [
       this.plane.scale.x,
       this.plane.scale.y,

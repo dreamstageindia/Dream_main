@@ -18,6 +18,9 @@ import VideoReel from "../components/VideoReel.jsx";
 import MotivationPage from "../components/MotivationPage.jsx";
 import CircularGal from "../components/CircularGal.js";
 import Intro from "../components/Intro.jsx";
+import Section12 from "../components/Section12.js";
+import ContactUs from "../components/ContactUs.jsx";
+import Footer from "../components/Footer.jsx";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -145,6 +148,18 @@ const Home = () => {
       </div>
       <div className="hsec shrink-0 w-screen h-auto bg-black">
             <CircularGal />
+      </div>
+      <div className="hsec shrink-0 w-screen h-auto bg-black">
+            <Section11 />
+      </div>
+      <div className="hsec shrink-0 w-screen h-auto bg-black">
+            <Section12 />
+      </div>
+      <div className="hsec shrink-0 w-screen h-auto bg-black">
+            <ContactUs />
+      </div>
+      <div className="hsec shrink-0 w-screen h-auto bg-black">
+            <Footer />
       </div>
     </div>
   );

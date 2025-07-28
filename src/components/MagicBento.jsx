@@ -9,39 +9,39 @@ const MOBILE_BREAKPOINT = 768;
 const cardData = [
   {
     color: "#060010",
-    title: "Analytics",
-    description: "Track user behavior",
-    label: "Insights",
+    title: "title",
+    description: "description",
+    label: "ARTISTS",
   },
   {
     color: "#060010",
-    title: "Dashboard",
-    description: "Centralized data view",
-    label: "Overview",
+    title: "title",
+    description: "description",
+    label: "ARTISTS",
   },
   {
     color: "#060010",
-    title: "Collaboration",
-    description: "Work together seamlessly",
-    label: "Teamwork",
+    title: "title",
+    description: "description",
+    label: "ARTISTS",
   },
   {
     color: "#060010",
-    title: "Automation",
-    description: "Streamline workflows",
-    label: "Efficiency",
+    title: "title",
+    description: "description",
+    label: "ARTISTS",
   },
   {
     color: "#060010",
-    title: "Integration",
-    description: "Connect favorite tools",
-    label: "Connectivity",
+    title: "title",
+    description: "description",
+    label: "ARTISTS",
   },
   {
     color: "#060010",
-    title: "Security",
-    description: "Enterprise-grade protection",
-    label: "Protection",
+    title: "title",
+    description: "description",
+    label: "ARTISTS",
   },
 ];
 
@@ -535,6 +535,8 @@ const MagicBento = ({
       <style>
         {`
           .bento-section {
+            /* allow clicks & hovers to pass through */
+            pointer-events: none;
             --glow-x: 50%;
             --glow-y: 50%;
             --glow-intensity: 0;
@@ -547,33 +549,124 @@ const MagicBento = ({
             --purple-glow: rgba(132, 0, 255, 0.2);
             --purple-border: rgba(132, 0, 255, 0.8);
           }
+
+          /* cards themselves must still receive pointer events */
+          .bento-section .card {
+            pointer-events: auto;
+          }
           
           .card-responsive {
-            grid-template-columns: 1fr;
-            width: 90%;
+            grid-template-columns: repeat(4, 1fr);
+            width: 100%;
             margin: 0 auto;
             padding: 0.5rem;
+            gap: 0.5rem;
           }
           
-          @media (min-width: 600px) {
-            .card-responsive {
-              grid-template-columns: repeat(2, 1fr);
-            }
-          }
-          
-          @media (min-width: 1024px) {
+          /* Mobile styles - maintain 4-column layout with smaller cards */
+          @media (max-width: 599px) {
             .card-responsive {
               grid-template-columns: repeat(4, 1fr);
+              gap: 0.25rem;
+              padding: 0.25rem;
+              width: 100%;
+              max-width: 100%;
+            }
+            
+            .card-responsive .card {
+              min-height: 80px;
+              aspect-ratio: 4/3;
+              padding: 0.5rem;
+              font-size: 0.75rem;
             }
             
             .card-responsive .card:nth-child(3) {
               grid-column: span 2;
               grid-row: span 2;
+              min-height: 160px;
             }
             
             .card-responsive .card:nth-child(4) {
               grid-column: 1 / span 2;
               grid-row: 2 / span 2;
+              min-height: 160px;
+            }
+            
+            .card-responsive .card:nth-child(6) {
+              grid-column: 4;
+              grid-row: 3;
+            }
+            
+            .card__label {
+              font-size: 0.625rem;
+            }
+            
+            .card__title {
+              font-size: 0.75rem;
+            }
+            
+            .card__description {
+              font-size: 0.625rem;
+              line-height: 1.2;
+            }
+          }
+          
+          /* Tablet styles */
+          @media (min-width: 600px) and (max-width: 1023px) {
+            .card-responsive {
+              grid-template-columns: repeat(4, 1fr);
+              gap: 0.75rem;
+              padding: 0.5rem;
+            }
+            
+            .card-responsive .card {
+              min-height: 120px;
+              padding: 0.75rem;
+              font-size: 0.875rem;
+            }
+            
+            .card-responsive .card:nth-child(3) {
+              grid-column: span 2;
+              grid-row: span 2;
+              min-height: 240px;
+            }
+            
+            .card-responsive .card:nth-child(4) {
+              grid-column: 1 / span 2;
+              grid-row: 2 / span 2;
+              min-height: 240px;
+            }
+            
+            .card-responsive .card:nth-child(6) {
+              grid-column: 4;
+              grid-row: 3;
+            }
+          }
+          
+          /* Desktop styles */
+          @media (min-width: 1024px) {
+            .card-responsive {
+              grid-template-columns: repeat(4, 1fr);
+              gap: 1rem;
+              padding: 1rem;
+            }
+            
+            .card-responsive .card {
+              min-height: 200px;
+              padding: 1.25rem;
+              font-size: 1rem;
+            }
+            
+            .card-responsive .card:nth-child(3) {
+              grid-column: span 2;
+              grid-row: span 2;
+              min-height: 400px;
+            }
+            
+            .card-responsive .card:nth-child(4) {
+              grid-column: 1 / span 2;
+              grid-row: 2 / span 2;
+              min-height: 400px;
             }
             
             .card-responsive .card:nth-child(6) {
@@ -642,20 +735,6 @@ const MagicBento = ({
             overflow: hidden;
             text-overflow: ellipsis;
           }
-          
-          @media (max-width: 599px) {
-            .card-responsive {
-              grid-template-columns: 1fr;
-              width: 90%;
-              margin: 0 auto;
-              padding: 0.5rem;
-            }
-            
-            .card-responsive .card {
-              width: 100%;
-              min-height: 180px;
-            }
-          }
         `}
       </style>
 
@@ -672,7 +751,7 @@ const MagicBento = ({
       <BentoCardGrid gridRef={gridRef}>
         <div className="card-responsive grid gap-2">
           {cardData.map((card, index) => {
-            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${enableBorderGlow ? "card--border-glow" : ""
+            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] w-full max-w-full rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${enableBorderGlow ? "card--border-glow" : ""
               }`;
 
             const cardStyle = {
