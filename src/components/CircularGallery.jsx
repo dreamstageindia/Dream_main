@@ -272,16 +272,43 @@ class Media {
   onResize({ screen, viewport } = {}) {
     if (screen) this.screen = screen;
     if (viewport) this.viewport = viewport;
-    this.scale = this.screen.height / 1500;
-    // Compute a single size based on height, then use it for both axes:
-    const size = (this.viewport.height * 900 * this.scale) / this.screen.height;
-    this.plane.scale.set(size, size, 1);
+    
+    // Responsive sizing based on screen width
+    const isMobile = this.screen.width <= 768;
+    
+    if (isMobile) {
+      // On mobile, show fewer images per row for better visibility
+      const imagesPerRow = 1; // Show 2-3 images per row on mobile
+      const gap = 0.03; // Smaller gap on mobile
+      const totalGaps = imagesPerRow - 1;
+      const totalGapWidth = totalGaps * gap;
+      
+      // Calculate size to fit images in viewport width
+      const availableWidth = this.viewport.width - totalGapWidth;
+      const size = availableWidth / imagesPerRow;
+      
+      this.plane.scale.set(size, size, 1);
+    } else {
+      // Desktop sizing (original logic)
+      const gap = 0.05; // 5px equivalent in WebGL units
+      const imagesPerRow = 5.5; // Target 5-6 images per row
+      const totalGaps = imagesPerRow - 1;
+      const totalGapWidth = totalGaps * gap;
+      
+      // Calculate size to fit images in viewport width
+      const availableWidth = this.viewport.width - totalGapWidth;
+      const size = availableWidth / imagesPerRow;
+      
+      this.plane.scale.set(size, size, 1);
+    }
+    
     this.program.uniforms.uPlaneSizes.value = [
       this.plane.scale.x,
       this.plane.scale.y,
     ];
 
-    this.padding = 2;
+    // Use appropriate gap for padding
+    this.padding = isMobile ? 0.03 : 0.05;
     this.width = this.plane.scale.x + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;
@@ -356,7 +383,10 @@ class App {
       { image: `/assets/image/sdg/9.png`, text: "SDG17: Partnerships for Progress" },
     ];
     const galleryItems = items && items.length ? items : defaultItems;
-    this.mediasImages = galleryItems.concat(galleryItems);
+    
+    // Create more items to ensure smooth infinite scrolling
+    this.mediasImages = galleryItems.concat(galleryItems).concat(galleryItems);
+    
     this.medias = this.mediasImages.map((data, index) => {
       return new Media({
         geometry: this.planeGeometry,

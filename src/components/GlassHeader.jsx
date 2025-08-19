@@ -30,7 +30,7 @@ const GlassHeader = () => {
         <nav className="hidden lg:flex space-x-10">
           <a href="#home" className="cursor-target uppercase">HOME</a>
           <a href="#about" className="cursor-target uppercase">ABOUT</a>
-          <a href="#services" className="cursor-target uppercase">Art_Bridge</a>
+          <a href="#art_bridge" className="cursor-target uppercase">Art Bridge</a>
           <a href="#collective" className="cursor-target uppercase">Collective</a>
           <a href="#contact" className="cursor-target uppercase">Contact</a>
         </nav>
@@ -71,7 +71,7 @@ const GlassHeader = () => {
           <nav className="flex flex-col space-y-2">
             <a href="#home" className="hover:underline">Home</a>
             <a href="#about" className="hover:underline">About</a>
-            <a href="#services" className="hover:underline">Art Bridge</a>
+            <a href="#art_bridge" className="hover:underline">Art Bridge</a>
             <a href="#collective" className="hover:underline">Collective</a>
             <a href="#contact" className="hover:underline">Contact</a>
           </nav>

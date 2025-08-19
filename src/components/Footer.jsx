@@ -34,11 +34,9 @@ export default function Footer() {
         </h2>
         <div className="space-x-4">
           <button className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-full font-medium transition">
-            Join as Artist
+            Request an invite
           </button>
-          <button className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-full font-medium transition">
-            Find Artists For your Event
-          </button>
+         
           
         </div>
       </div>
@@ -48,18 +46,18 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-4">Dream Stage</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-indigo-400">Home</a></li>
-            <li><a href="#" className="hover:text-indigo-400">About</a></li>
-            <li><a href="#" className="hover:text-indigo-400">ArtBridge</a></li>
-            <li><a href="#" className="hover:text-indigo-400">Collective</a></li>
-            <li><a href="#" className="hover:text-indigo-400">Contact</a></li>
+            <li><a href="#home" className="hover:text-indigo-400">Home</a></li>
+            <li><a href="#about" className="hover:text-indigo-400">About</a></li>
+            <li><a href="#art_bridge" className="hover:text-indigo-400">ArtBridge</a></li>
+            <li><a href="#collective" className="hover:text-indigo-400">Collective</a></li>
+            <li><a href="#contact" className="hover:text-indigo-400">Contact</a></li>
           </ul>
         </div>
 
         <div>
           <h3 className="font-semibold mb-4">Artists</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-indigo-400">Join as Artist</a></li>
+            <li><a href="#" className="hover:text-indigo-400">Request an invite</a></li>
             <li><a href="#" className="hover:text-indigo-400">Showcase Portfolio</a></li>
             <li><a href="#" className="hover:text-indigo-400">How It Works</a></li>
             <li><a href="#" className="hover:text-indigo-400">Testimonials</a></li>

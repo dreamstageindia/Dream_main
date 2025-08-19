@@ -79,7 +79,7 @@ const Masonry = ({
       "(min-width:600px)",
       "(min-width:400px)",
     ],
-    [5, 4, 3, 2],
+    [8, 6, 4, 2], // Changed from [5, 4, 3, 2] to [8, 6, 4, 2]
     1
   );
 
@@ -122,14 +122,16 @@ const Masonry = ({
   const grid = useMemo(() => {
     if (!width) return [];
     const colHeights = new Array(columns).fill(0);
-    const gap = 16;
+    const gap = 2;
+    const marginX = 5; // Reduced further to increase width
     const totalGaps = (columns - 1) * gap;
-    const columnWidth = (width - totalGaps) / columns;
+    const totalMargins = columns * 2 * marginX;
+    const columnWidth = (width - totalGaps - totalMargins) / columns;
 
     return items.map((child) => {
       const col = colHeights.indexOf(Math.min(...colHeights));
-      const x = col * (columnWidth + gap);
-      const height = child.height / 2;
+      const x = col * (columnWidth + gap) + marginX;
+      const height = (child.height / 2) * 2.2; // Increased height from 1.5x to 2.2x
       const y = colHeights[col];
 
       colHeights[col] += height + gap;
@@ -212,37 +214,36 @@ const Masonry = ({
   return (
     <div
       ref={containerRef}
-      className="relative w-full"
+      className="relative w-full flex justify-center" // Added flex and justify-center
       style={{
         minHeight: Math.max(...grid.map((i) => i.y + i.h), 0),
       }}
     >
-      {grid.map((item) => (
-        <div
-          key={item.id}
-          data-key={item.id}
-          className="absolute box-content"
-          style={{ willChange: "transform, width, height, opacity" }}
-        //   onClick={() =>
-        //     window.open(item.url, "_blank", "noopener")
-        //   }
-          onMouseEnter={(e) =>
-            handleMouseEnter(item.id, e.currentTarget)
-          }
-          onMouseLeave={(e) =>
-            handleMouseLeave(item.id, e.currentTarget)
-          }
-        >
+      <div className="relative" style={{ width: '95%' }}> {/* Added wrapper with 95% width for centering */}
+        {grid.map((item) => (
           <div
-            className="relative w-full h-full bg-cover bg-center rounded-[10px] shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)] uppercase text-[10px] leading-[10px]"
-            style={{ backgroundImage: `url(${item.img})` }}
+            key={item.id}
+            data-key={item.id}
+            className="absolute box-content"
+            style={{ willChange: "transform, width, height, opacity" }}
+            onMouseEnter={(e) =>
+              handleMouseEnter(item.id, e.currentTarget)
+            }
+            onMouseLeave={(e) =>
+              handleMouseLeave(item.id, e.currentTarget)
+            }
           >
-            {colorShiftOnHover && (
-              <div className="color-overlay absolute inset-0 rounded-[10px] bg-gradient-to-tr from-pink-500/50 to-sky-500/50 opacity-0 pointer-events-none" />
-            )}
+            <div
+              className="relative w-full h-full bg-cover bg-center rounded-[10px] shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)] uppercase text-[10px] leading-[10px]"
+              style={{ backgroundImage: `url(${item.img})` }}
+            >
+              {colorShiftOnHover && (
+                <div className="color-overlay absolute inset-0 rounded-[10px] bg-gradient-to-tr from-pink-500/50 to-sky-500/50 opacity-0 pointer-events-none" />
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

@@ -24,15 +24,24 @@ const BigBlockText = ({
   // 2. pick base size (prop or clamp)
   const baseSize = fontSize || clamp;
 
-  // 3. helper: divide any numeric CSS value by 2
+  // 3. helper: divide numeric CSS values (for mobile halving)
   const halfSize = (sizeStr) =>
     sizeStr.replace(/(\d*\.?\d+)([a-zA-Z%]+)/g, (_, num, unit) => {
-      const half = 1;
+      const half = parseFloat(num) / 2;
       return `${Math.round(half * 10000) / 10000}${unit}`;
     });
 
-  // 4. final size based on screen
+  // 4. final size for text
   const finalFontSize = isMobile ? halfSize(baseSize) : baseSize;
+
+  // 5. derive title size (1.5x text)
+  const scaledSize = (sizeStr, factor) =>
+    sizeStr.replace(/(\d*\.?\d+)([a-zA-Z%]+)/g, (_, num, unit) => {
+      const scaled = parseFloat(num) * factor;
+      return `${Math.round(scaled * 10000) / 10000}${unit}`;
+    });
+
+  const titleFontSize = scaledSize(finalFontSize, 1.5);
 
   // splitting logic: only on explicit quoted segments "…","…"
   const lines = Array.isArray(text)
@@ -50,7 +59,16 @@ const BigBlockText = ({
     >
       {title && (
         <h2
-          className="uppercase text-white/10 bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-4xl font-bold"
+          className="uppercase font-bold"
+          style={{
+            fontSize: titleFontSize,
+            letterSpacing: tracking,
+            wordSpacing,
+            background:
+              "linear-gradient(to right, #ec4899, #8b5cf6, #3b82f6)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
         >
           {title}
         </h2>

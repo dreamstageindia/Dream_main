@@ -18,7 +18,7 @@ const Section2 = forwardRef((props, ref) => (
           "We exist to redefine the creative economy by connecting niche artistic talent with a world of opportunity.",
           "Through tech, community, and culture, we create a thriving ecosystem where every dream has a stage."
         ]}
-        fontSize = "3.0rem"
+        fontSize = "2.5rem"
       />
     </div>
   </section>

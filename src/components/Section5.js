@@ -139,7 +139,7 @@ const Section5 = () => {
   
   YOUR DREAM STAGE AWAITS.`
         ]}
-        fontSize={'3rem'}
+        fontSize={'2.5rem'}
       />
     </div>
       </div>

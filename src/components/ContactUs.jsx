@@ -25,7 +25,7 @@ export default function ContactUs() {
   }, []);
 
   return (
-    <>
+    <div id="contact">
       <style jsx global>{`
         @keyframes blob {
           0%,100% { transform: translate(0,0) scale(1); }
@@ -39,7 +39,7 @@ export default function ContactUs() {
 
       <div
         ref={containerRef}
-        className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-black p-4 overflow-hidden"
+        className="relative min-h-screen flex items-center justify-center bg-black p-4 overflow-hidden"
       >
         {/* 3D bubbles in background */}
         <BubbleBackground />
@@ -96,6 +96,6 @@ export default function ContactUs() {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 }

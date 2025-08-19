@@ -73,7 +73,7 @@ export default function Intro({ onFinish }) {
         className="mt-4 bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400
                    text-[clamp(1rem,4vw,2rem)]"
       >
-        Where Dreams take center stage
+        WHERE DREAMS TAKE CENTER STAGE.
       </p>
     </div>
   );

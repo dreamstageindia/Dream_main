@@ -41,12 +41,16 @@ export default function Section6() {
 
       {/* Content */}
       <div className="relative flex flex-col md:flex-row items-center justify-center max-w-6xl mx-auto px-6 py-12 md:py-20 lg:py-32">
-        {/* Image */}
+        {/* Video */}
         <div className="w-full md:w-1/2 mb-8 md:mb-0">
-          <img
-            src="/assets/image/1.png"
+          <video
+            src="/assets/video/dream_hq.mp4"
             alt="Dream HQ"
             className="w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto rounded-lg"
+            autoPlay
+            muted
+            loop
+            playsInline
           />
         </div>
 
@@ -55,7 +59,7 @@ export default function Section6() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-pink-500">
             DREAM HQ
           </h2>
-          <p className="text-base sm:text-lg md:text-xl leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl leading-relaxed uppercase text-justify">
             Dream Stage is based in Manali, in the heart of the Himalayas. It’s our peaceful home for creativity, clarity, and collaboration. Instead of setting up in busy cities like Gurgaon or Bangalore, we chose to build our base 2,200 meters above sea level surrounded by the beautiful Pir Panjal and Dhauladhar mountain ranges.
             <br /><br />
             Here, the air is fresh, the water is clean, and the food is nourishing. Silence helps us focus, the stunning beauty keeps us calm and the harsh realities of mountains keep us grounded, pushes our limits, offers us adventures every day and gives us hope for a happier tomorrow.

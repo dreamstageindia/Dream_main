@@ -41,8 +41,8 @@ const Section6 = forwardRef(function Section6(_, ref) {
         colors={["#6EE7F9", "#A78BFA", "#F472B6", "#FDE68A", "#34D399"]}
         opacity={0.5}
       />
-<BigBlockText title="Culture Rock" text="" />
-        <BigBlockText title="" text="At Dream Stage, our foundation rests on six guiding values:" />
+<BigBlockText title="Culture Rock" text="" fontSize="2.5rem"/>
+        <BigBlockText title="" text="At Dream Stage, our foundation rests on six guiding values:" fontSize="2.5rem"/>
       <div className="relative z-10 mix-blend-difference w-full max-w-6xl mx-auto">
         
 

@@ -143,7 +143,7 @@ const Home = () => {
             <Section10 />
       </div>
       
-      <div className="hsec shrink-0 w-screen h-auto ">
+      <div className="hsec shrink-0 w-screen h-auto bg-black">
             <MotivationPage />
       </div>
       <div className="hsec shrink-0 w-screen h-auto bg-black">

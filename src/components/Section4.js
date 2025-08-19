@@ -24,6 +24,7 @@ const Section4 = forwardRef((props, ref) => (
           "Community that uplifts and inspires ",
           "Culture that celebrates diversity and individuality "
       ]}
+      fontSize="2.5rem"
       />
 
       

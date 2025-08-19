@@ -1,5 +1,6 @@
 // src/components/Section8.jsx
 import React, { useRef, useEffect } from "react";
+import BigBlockText from "./BigBlockText";
 
 const DATA = [
   { img: "/assets/image/values/1.png",  title: "Artist‑First",             desc: "Fair opportunities, recognition, and sustainable careers for creative professionals." },
@@ -73,10 +74,11 @@ export default function Section8() {
       <div className="absolute inset-0 animate-gradient" />
       <div className="absolute inset-0 bg-black/60" />
 
-      <div className="relative z-10 py-8 text-center">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold uppercase text-pink-500">
-          What We Stand For / Why Us
-        </h2>
+      <div className="relative z-10 py-8 text-left ">
+        <BigBlockText
+        title="Why Us"
+        fontSize="2.5rem"
+        />
       </div>
 
       <div

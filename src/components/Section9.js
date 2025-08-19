@@ -1,31 +1,32 @@
 import React, { useEffect } from "react";
 import ChromaGrid from './ChromaGrid';
 import { motion } from 'framer-motion';
+import BigBlockText from "./BigBlockText";
 
 const items = [
   {
-    image: "/assets/image/values/1.png",
+    image: "https://media.licdn.com/dms/image/v2/D5635AQH-wiaKcB0UDw/profile-framedphoto-shrink_400_400/B56ZhjMAJZH0Ag-/0/1754010747755?e=1756188000&v=beta&t=jji958czZvmKSAxwZlE8UuEOgDBt5rXBuF6X79kLwuk ",
     title: "SAKSHAM SINGHAL",
     subtitle: "DIRECTOR",
-    handle: "@saksham",
+    handle: ".",
     borderColor: "#3B82F6",
     gradient: "linear-gradient(145deg, #3B82F6, #000)",
     url: ""
   },
   {
-    image: "/assets/image/values/1.png",
+    image: "https://media.licdn.com/dms/image/v2/D5635AQF735CXHgoc1w/profile-framedphoto-shrink_400_400/B56ZhlGdIXHUAc-/0/1754042848180?e=1756188000&v=beta&t=cFa5eat2MPZ2zoZjqerUsKjnS4Ru355PKr_lhChKbYk",
     title: "RASHMI",
     subtitle: "CO-FOUNDER",
-    handle: "@rashmi",
+    handle: ".",
     borderColor: "#10B981",
     gradient: "linear-gradient(180deg, #10B981, #000)",
     url: ""
   },
   {
-    image: "/assets/image/values/1.png",
+    image: "https://media.licdn.com/dms/image/v2/D5603AQEHKtU-uVXSjA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1731980983271?e=1758758400&v=beta&t=-ZsWKpVg1EKmcP7d6ApxyeEpuwRy_igejCguQDkQGYU",
     title: "BHARATH C",
     subtitle: "HEAD OF TECHNOLOGY",
-    handle: "@mikechen",
+    handle: ".",
     borderColor: "#10B981",
     gradient: "linear-gradient(180deg, #6C82F6, #000)",
     url: ""
@@ -120,14 +121,10 @@ export default function Section9() {
         }
       `}</style>
       <div className="content flex flex-col justify-center items-center min-h-screen">
-        <motion.h1 
-          className="text-4xl font-bold text-left mb-8 uppercase text-pink-500"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          OUR TEAM
-        </motion.h1>
+        <BigBlockText
+        title="OUR TEAM"
+        fontSize="2.5rem"
+        />
         <motion.div 
           className="flex justify-center items-center gap"
           initial={{ opacity: 0 }}

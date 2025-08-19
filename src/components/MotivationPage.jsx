@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import BigBlockText from './BigBlockText';
 
 const MotivationContainer = styled.div`
   background: #000;
@@ -43,19 +44,20 @@ const itemVariants = {
 
 const MotivationComponent = () => {
   return (
-    <MotivationContainer>
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <Title variants={itemVariants}>OUR MOTIVATION</Title>
-        <Text variants={itemVariants} className='uppercase'>
-          We’ve witnessed countless artists struggle. Struggling to get paid on time, to find their next gig, to secure regular work, and to receive fair wages. Breaches of agreements, delayed payments, and broken promises became far too common. It was our friends, breaking down, questioning their creative path.<br/> But the struggle wasn’t one-sided.<br/> Venue owners, event curators, wedding planners, and HoReCa professionals faced their own challenges. From unmet expectations to unclear terms and difficulty finding the right talent, their frustration was real. These issues repeated across art forms and cities—Goa, Mumbai, Bangalore, Gurgaon, Himachal. <br/>That’s when it became clear. We need a platform to simplify discovery, align expectations, and make the process seamless for both artists and curators.
-        </Text>
-      </motion.div>
-    </MotivationContainer>
+    <div className='bg-black h-[720px]'>
+      <BigBlockText
+        title="OUR MOTIVATION"
+        text={
+          [
+            "Artists often struggle with delayed payments, unfair wages, and unreliable gigs—leading many to question their creative path.",
+            "On the other side, venue owners, curators, and HoReCa professionals face unmet expectations, unclear terms, and difficulty finding talent.", 
+            "These issues persist across cities like Goa, Mumbai, Bangalore, Gurgaon, and Himachal.", 
+            "It became clear: we need a platform that simplifies discovery, aligns expectations, and makes the process seamless for both artists and curators."
+          ]
+        }
+        fontSize="2.5rem"
+      />
+    </div>
   );
 };
 

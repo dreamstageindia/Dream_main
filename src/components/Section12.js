@@ -12,13 +12,13 @@ const items = [
     id: "2",
     img: "/assets/image/collectives/2.png",
     // url: "https://example.com/two",
-    height: 250,
+    height: 400,
   },
   {
     id: "3",
     img: "/assets/image/collectives/3.png",
     // url: "https://example.com/three",
-    height: 600,
+    height: 400,
   },
   {
     id: "4",
@@ -30,13 +30,13 @@ const items = [
     id: "5",
     img: "/assets/image/collectives/5.png",
     // url: "https://example.com/two",
-    height: 250,
+    height: 400,
   },
   {
     id: "6",
     img: "/assets/image/collectives/6.png",
     // url: "https://example.com/three",
-    height: 600,
+    height: 400,
   },
   {
     id: "7",
@@ -48,13 +48,13 @@ const items = [
     id: "8",
     img: "/assets/image/collectives/8.png",
     // url: "https://example.com/two",
-    height: 250,
+    height: 400,
   },
   {
     id: "9",
     img: "/assets/image/collectives/9.png",
     // url: "https://example.com/three",
-    height: 600,
+    height: 400,
   },
   {
     id: "10",
@@ -66,13 +66,13 @@ const items = [
     id: "11",
     img: "/assets/image/collectives/11.png",
     // url: "https://example.com/two",
-    height: 250,
+    height: 400,
   },
   {
     id: "12",
     img: "/assets/image/collectives/12.png",
     // url: "https://example.com/three",
-    height: 600,
+    height: 400,
   },
   {
     id: "13",
@@ -84,13 +84,13 @@ const items = [
     id: "14",
     img: "/assets/image/collectives/14.png",
     // url: "https://example.com/two",
-    height: 250,
+    height: 400,
   },
   {
     id: "15",
     img: "/assets/image/collectives/15.png",
     // url: "https://example.com/three",
-    height: 600,
+    height: 400,
   },
   {
     id: "16",
@@ -102,16 +102,16 @@ const items = [
     id: "17",
     img: "/assets/image/collectives/17.png",
     // url: "https://example.com/two",
-    height: 250,
+    height: 400,
   },
   
 ];
 
 export default function Section12() {
   return (
-    <div className="h-auto w-screen">
+    <div className="h-auto w-screen" id="collective">
       <div>
-        <BigBlockText title={"Collectives"} />
+        <BigBlockText title={"Collectives"} fontSize="2.5rem"/>
       </div>
       <Masonry
         items={items}
