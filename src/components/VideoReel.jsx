@@ -50,18 +50,17 @@ const slides = [
   },
 ];
 
-const HOLD = 0.9;
-const SLIDE = 0.8;
+const HOLD = 1; // Reduced for faster transitions
+const SLIDE = 0.3; // Reduced for quicker slides
 
 const VideoReel = () => {
   const wrapRef = useRef(null);
   const trackRef = useRef(null);
 
   useLayoutEffect(() => {
-    const isMobile = window.innerWidth <= 768; // Mobile breakpoint
+    const isMobile = window.innerWidth <= 768;
     const ctx = gsap.context(() => {
       if (!isMobile) {
-        // Desktop: Horizontal scrolling
         const track = trackRef.current;
         const panels = gsap.utils.toArray(".video-slide", track);
         const vw = () => window.innerWidth;
@@ -71,11 +70,12 @@ const VideoReel = () => {
           scrollTrigger: {
             trigger: wrapRef.current,
             start: "top top",
-            end: () => "+=" + panels.length * (HOLD + SLIDE) * 1000,
-            scrub: true,
+            end: () => "+=" + panels.length * (HOLD + SLIDE) * 800, // Reduced end value
+            scrub: 1, // Smoother scrub
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            fastScrollEnd: true, // Faster cleanup
           },
         });
 
@@ -89,16 +89,20 @@ const VideoReel = () => {
           tl.to({}, { duration: HOLD });
         });
 
+        // Debounced resize handler
+        let resizeTimeout;
         const onResize = () => {
-          gsap.set(track, {
-            x: -tl.progress() * (panels.length - 1) * vw(),
-          });
-          ScrollTrigger.refresh();
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            gsap.set(track, {
+              x: -tl.progress() * (panels.length - 1) * vw(),
+            });
+            ScrollTrigger.refresh();
+          }, 100); // Debounce delay
         };
         window.addEventListener("resize", onResize);
         return () => window.removeEventListener("resize", onResize);
       } else {
-        // Mobile: Reset GSAP for vertical scrolling
         gsap.set(trackRef.current, { x: 0, clearProps: "all" });
         ScrollTrigger.getAll().forEach((st) => st.kill());
       }
@@ -108,7 +112,7 @@ const VideoReel = () => {
 
   return (
     <div ref={wrapRef} className="relative h-auto md:h-screen overflow-hidden" id="home">
-      <div ref={trackRef} className="flex flex-col md:flex-row h-auto md:h-full will-change-transform">
+      <div ref={trackRef} className="flex flex-col md:flex-row h-auto md:h-full will-change-transform transform-gpu">
         {slides.map((s, i) => (
           <div
             className="video-slide w-screen h-screen shrink-0 snap-start"

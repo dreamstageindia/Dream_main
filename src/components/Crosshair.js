@@ -1,4 +1,3 @@
-// src/components/Crosshair.jsx
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
@@ -20,7 +19,6 @@ const Crosshair = ({ color = "white", containerRef = null }) => {
   const filterYRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
 
-  /* ✅ update color whenever prop changes */
   useEffect(() => {
     if (!lineH.current || !lineV.current) return;
     gsap.set([lineH.current, lineV.current], { backgroundColor: color });
@@ -40,15 +38,15 @@ const Crosshair = ({ color = "white", containerRef = null }) => {
           ev.clientY >= b.top &&
           ev.clientY <= b.bottom;
 
-        gsap.to([lineH.current, lineV.current], { opacity: inside ? 1 : 0, duration: 0.2 });
+        gsap.to([lineH.current, lineV.current], { opacity: inside ? 1 : 0, duration: 0.1 }); // Faster transition
       }
     };
 
     target.addEventListener("mousemove", handleMouseMove);
 
     const rendered = {
-      tx: { prev: 0, cur: 0, amt: 0.15 },
-      ty: { prev: 0, cur: 0, amt: 0.15 },
+      tx: { prev: 0, cur: 0, amt: 0.2 }, // Increased lerp for smoother movement
+      ty: { prev: 0, cur: 0, amt: 0.2 },
     };
 
     gsap.set([lineH.current, lineV.current], { opacity: 0 });
@@ -56,13 +54,13 @@ const Crosshair = ({ color = "white", containerRef = null }) => {
     const firstMove = () => {
       rendered.tx.prev = rendered.tx.cur = mouseRef.current.x;
       rendered.ty.prev = rendered.ty.cur = mouseRef.current.y;
-      gsap.to([lineH.current, lineV.current], { duration: 0.9, ease: "power3.out", opacity: 1 });
+      gsap.to([lineH.current, lineV.current], { duration: 0.6, ease: "power3.out", opacity: 1 }); // Faster initial animation
       requestAnimationFrame(render);
       target.removeEventListener("mousemove", firstMove);
     };
     target.addEventListener("mousemove", firstMove);
 
-    /* noise timeline */
+    // Simplified noise effect
     const primitiveValues = { turbulence: 0 };
     const tl = gsap
       .timeline({
@@ -80,9 +78,9 @@ const Crosshair = ({ color = "white", containerRef = null }) => {
         },
       })
       .to(primitiveValues, {
-        duration: 0.5,
+        duration: 0.3, // Faster noise animation
         ease: "power1",
-        startAt: { turbulence: 1 },
+        startAt: { turbulence: 0.8 }, // Reduced turbulence
         turbulence: 0,
       });
 
@@ -134,7 +132,7 @@ const Crosshair = ({ color = "white", containerRef = null }) => {
               numOctaves="1"
               ref={filterXRef}
             />
-            <feDisplacementMap in="SourceGraphic" scale="40" />
+            <feDisplacementMap in="SourceGraphic" scale="30" /> {/* Reduced scale */}
           </filter>
           <filter id="filter-noise-y">
             <feTurbulence
@@ -143,18 +141,18 @@ const Crosshair = ({ color = "white", containerRef = null }) => {
               numOctaves="1"
               ref={filterYRef}
             />
-            <feDisplacementMap in="SourceGraphic" scale="40" />
+            <feDisplacementMap in="SourceGraphic" scale="30" />
           </filter>
         </defs>
       </svg>
 
       <div
         ref={lineH}
-        className="absolute w-full h-px pointer-events-none opacity-0 translate-y-1/2"
+        className="absolute w-full h-px pointer-events-none opacity-0 translate-y-1/2 transform-gpu"
       />
       <div
         ref={lineV}
-        className="absolute h-full w-px pointer-events-none opacity-0 translate-x-1/2"
+        className="absolute h-full w-px pointer-events-none opacity-0 translate-x-1/2 transform-gpu"
       />
     </div>
   );

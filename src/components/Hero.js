@@ -55,17 +55,17 @@ const Hero = () => {
         .to(headlineRef.current, { yPercent: -20, opacity: 0, ease: "none" }, 0.1)
         .to(containerRef.current, { opacity: 0, ease: "none" }, 0.9);
 
-      gsap.from("#next-section", {
-        scrollTrigger: {
-          trigger: "#next-section",
-          start: "top 80%",
-        },
-        opacity: 0,
-        y: 60,
-        duration: 1,
-        ease: "power2.out",
-        clearProps: "all",
-      });
+        gsap.from("#next-section", {
+          scrollTrigger: {
+            trigger: "#next-section",
+            start: "top 60%",
+          },
+          opacity: 0,
+          y: 30,
+          duration: 0.5, // Reduced from 1 to 0.5
+          ease: "power2.out",
+          clearProps: "all",
+        });
     }, containerRef);
 
     return () => ctx.revert();

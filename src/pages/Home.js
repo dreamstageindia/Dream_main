@@ -6,7 +6,7 @@ import Section3 from "../components/Section3";
 import Section4 from "../components/Section4";
 import Section5 from "../components/Section5";
 import Section6 from "../components/Section6";
-import Section7 from "../components/Section7";
+import Section7 from "../components/Section7"; // (import kept because you had it)
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -27,7 +27,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Home = () => {
   const [showIntro, setShowIntro] = useState(true);
 
-  // show/hide "Back to Top" button
+  // Back-to-top button visibility
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   // pinned stack
@@ -36,16 +36,20 @@ const Home = () => {
   const sec3Ref = useRef(null);
   const sec4Ref = useRef(null);
 
-  // horizontal block (kept for future use if you re-enable)
+  // NOTE: You had refs and code for a horizontal block that isn't actually rendered.
+  // Leaving the refs here is harmless, but we removed the unused ScrollTrigger to avoid side effects.
   const hWrapRef = useRef(null);
   const hTrackRef = useRef(null);
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      if (showIntro) return;
+    if (showIntro) return;
 
+    // Build all ScrollTriggers within this DOM subtree and auto-clean on unmount
+    const ctx = gsap.context(() => {
       /* -------- Sections 2→3→4 (vertical pinned) -------- */
-      const HOLD = 0.100;
+      const HOLD = 0.5;
+
+      if (!pinWrapRef.current || !sec2Ref.current || !sec3Ref.current || !sec4Ref.current) return;
 
       gsap.set(sec2Ref.current, { xPercent: 0, autoAlpha: 1 });
       gsap.set(sec3Ref.current, { xPercent: 100, autoAlpha: 0 });
@@ -58,6 +62,7 @@ const Home = () => {
           end: "+=250%",
           scrub: 0.6,
           pin: true,
+          pinSpacing: true,     // keep layout space so React/DOM don't fight
           anticipatePin: 1,
         },
         defaults: { ease: "none" },
@@ -70,41 +75,17 @@ const Home = () => {
         .to(sec4Ref.current, { xPercent: 0, autoAlpha: 1 }, "<")
         .to({}, { duration: HOLD });
 
-      /* -------- Sections 5→6→7 (horizontal RIGHT reveal) -------- */
-      const track = hTrackRef.current;
-      const wrapper = hWrapRef.current;
+      // ⚠️ Removed the unused horizontal ScrollTrigger (5→6→7) because there's no corresponding DOM wrapper/track in this file.
+      // That code could register triggers bound to nulls and contribute to "insertBefore" runtime errors when React reorders nodes.
+    }, pinWrapRef);
 
-      if (track && wrapper) {
-        const calcLen = () => track.scrollWidth - window.innerWidth;
-
-        let st;
-        const setup = () => {
-          const len = calcLen();
-          gsap.set(track, { x: -len });
-          if (st) st.kill();
-          st = ScrollTrigger.create({
-            trigger: wrapper,
-            start: "top top",
-            end: () => `+=${len}`,
-            scrub: 0.6,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              gsap.to(track, { x: -len + len * self.progress, overwrite: true });
-            },
-          });
-        };
-
-        setup();
-        ScrollTrigger.addEventListener("refreshInit", setup);
-      }
-    });
-
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();           // fully restore DOM/styles so React remains in charge
+      ScrollTrigger.refresh(); // ensure positions updated after cleanup
+    };
   }, [showIntro]);
 
-  // ensure correct sizes after load
+  // ensure correct sizes after load (media/layout-dependent measurements)
   useEffect(() => {
     const onLoad = () => ScrollTrigger.refresh();
     window.addEventListener("load", onLoad);
@@ -113,25 +94,19 @@ const Home = () => {
 
   // handle showing the scroll-to-top button
   useEffect(() => {
-    const onScroll = () => {
-      // show after ~300px scroll; hide during Intro
-      setShowScrollTop(!showIntro && window.scrollY > 300);
-    };
+    const onScroll = () => setShowScrollTop(!showIntro && window.scrollY > 300);
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // initialize on mount
+    onScroll(); // initialize
     return () => window.removeEventListener("scroll", onScroll);
   }, [showIntro]);
 
   const scrollToTop = () => {
-    // respect prefers-reduced-motion
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({
-      top: 0,
-      behavior: prefersReduced ? "auto" : "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: prefersReduced ? "auto" : "smooth" });
   };
 
   if (showIntro) {
+    // Keep Intro exactly as you had it, then reveal the site
     return <Intro onFinish={() => setShowIntro(false)} />;
   }
 
@@ -143,7 +118,7 @@ const Home = () => {
         <VideoReel />
       </div>
 
-      {/* Horizontal scroll slides */}
+      {/* Pinned ABOUT / VISION / MISSION (unchanged order/visuals) */}
       <div ref={pinWrapRef} className="relative h-screen overflow-hidden bg-black" id="about">
         <Section2 ref={sec2Ref} />
         <Section3 ref={sec3Ref} />

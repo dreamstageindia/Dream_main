@@ -1,38 +1,78 @@
-.App {
-  text-align: center;
+/* src/index.css */
+
+/* Tailwind first */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* System fonts & smoothing */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  background: #000;  /* keep background consistent */
+  color: #fff;
 }
 
-.App-logo {
-  height: 40vmin;
+/* Hide scrollbars visually (don’t block scrolling) */
+body::-webkit-scrollbar { display: none; }
+body { scrollbar-width: none; -ms-overflow-style: none; }
+
+code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
+
+html, body { overflow-x: hidden; }
+
+/* Remove this — it broke scroll:
+.noscroll { height: screen; overflow: hidden; }  */
+
+/* Sparkle link (kept) */
+.spark-link {
+  position: relative;
+  background: rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+.spark-link::before {
+  content: "";
+  position: absolute;
+  inset: -150% -150% auto auto;
+  width: 300%;
+  height: 300%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35) 0%, transparent 60%),
+    radial-gradient(circle at 80% 60%, rgba(255,255,255,0.2) 0%, transparent 55%),
+    radial-gradient(circle at 40% 80%, rgba(255,255,255,0.25) 0%, transparent 50%);
+  transform: translate3d(-50%, -50%, 0) scale(0.4);
+  opacity: 0;
+  transition: opacity .35s ease;
   pointer-events: none;
+  filter: blur(2px);
+}
+.spark-link:hover::before {
+  opacity: 1;
+  animation: sparkle-move 1.8s linear infinite;
+}
+@keyframes sparkle-move {
+  0%   { transform: translate3d(-50%, -50%, 0) scale(0.4) rotate(0deg); }
+  50%  { transform: translate3d(-40%, -60%, 0) scale(0.45) rotate(120deg); }
+  100% { transform: translate3d(-55%, -45%, 0) scale(0.4) rotate(240deg); }
 }
 
+/* Snap helpers (safe) */
+#home { scroll-snap-type: y mandatory; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.video-slide, section.snap-start { scroll-snap-align: start; }
+
+/* Legacy CRA demo classes kept (harmless) */
+.App { text-align: center; }
+.App-logo { height: 40vmin; pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  .App-logo { animation: App-logo-spin infinite 20s linear; }
 }
-
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: #282c34; min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; font-size: calc(10px + 2vmin); color: white;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+.App-link { color: #61dafb; }
+@keyframes App-logo-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
