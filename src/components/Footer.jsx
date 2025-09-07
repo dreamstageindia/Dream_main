@@ -2,8 +2,9 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { FaSquareFacebook, FaLinkedin, FaInstagram   } from "react-icons/fa6";
+import { FaSquareFacebook, FaLinkedin, FaInstagram } from "react-icons/fa6";
 import { gsap } from "gsap";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const footerRef = useRef(null);
@@ -33,11 +34,11 @@ export default function Footer() {
           Your art deserves a stage. Let’s build it together.
         </h2>
         <div className="space-x-4">
-          <button className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-full font-medium transition">
-            Request an invite
-          </button>
-         
-          
+          <Link to={"https://form.jotform.com/252493423386058"}>
+            <button className="px-6 py-3 bg-pink-600 hover:bg-pink-700 rounded-full font-medium transition">
+              Request an invite
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -57,7 +58,7 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-4">Artists</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-indigo-400">Request an invite</a></li>
+            <li><a href="https://form.jotform.com/252493423386058" className="hover:text-indigo-400">Request an invite</a></li>
             <li><a href="#" className="hover:text-indigo-400">Showcase Portfolio</a></li>
             <li><a href="#" className="hover:text-indigo-400">How It Works</a></li>
             <li><a href="#" className="hover:text-indigo-400">Testimonials</a></li>
@@ -76,10 +77,19 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-4">Company</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-indigo-400">Careers</a></li>
-            <li><a href="#" className="hover:text-indigo-400">Press</a></li>
+            <li>
+              <a
+                href="mailto:careers@dreamstage.tech?subject=Job%20Application&body=Hello%20Dreamstage%20Team,"
+                className="hover:text-indigo-400"
+              >
+                Careers
+              </a>
+            </li>
+
+            <li><a href="mailto:hello@dreamstage.tech" className="hover:text-indigo-400">Hello</a></li>
+            <li><a href="mailto:support@dreamstage.tech" className="hover:text-indigo-400">Support</a></li>
+
             <li><a href="#" className="hover:text-indigo-400">Legal</a></li>
-            <li><a href="#" className="hover:text-indigo-400">Culture Guidebook</a></li>
             <li><a href="#" className="hover:text-indigo-400">Newsletter Signup</a></li>
           </ul>
         </div>
@@ -99,10 +109,10 @@ export default function Footer() {
         {/* Social Icons */}
         <div className="flex space-x-4 mb-4 md:mb-0">
           <a href="#" className="hover:text-indigo-400">
-            <FaLinkedin  size={20} />
+            <FaLinkedin size={20} />
           </a>
           <a href="#" className="hover:text-indigo-400">
-            <FaInstagram  size={20} />
+            <FaInstagram size={20} />
           </a>
           <a href="#" className="hover:text-indigo-400">
             <FaSquareFacebook size={20} />

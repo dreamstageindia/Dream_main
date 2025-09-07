@@ -27,26 +27,52 @@ const GlassHeader = () => {
         </div>
 
         {/* desktop nav (only lg and up) */}
-        <nav className="hidden lg:flex space-x-10">
+        <nav className="hidden lg:flex space-x-10 items-center">
+          {/* Request Invite button */}
+          <a
+            href="https://form.jotform.com/252493423386058"
+            className="
+              px-4 py-2 rounded-lg 
+              bg-gradient-to-r from-purple-500 to-pink-500
+              text-white font-semibold
+              hover:opacity-90 transition
+            "
+          >
+            Request an Invite
+          </a>
           <a href="#home" className="cursor-target uppercase">HOME</a>
           <a href="#about" className="cursor-target uppercase">ABOUT</a>
           <a href="#art_bridge" className="cursor-target uppercase">Art Bridge</a>
           <a href="#collective" className="cursor-target uppercase">Collective</a>
           <a href="#contact" className="cursor-target uppercase">Contact</a>
+
+          
         </nav>
 
         {/* hamburger button: show from md and below */}
         <button
           className="block lg:hidden"
-          onClick={() => setMenuOpen(o => !o)}
+          onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
         >
           {menuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
             </svg>
           )}
@@ -69,11 +95,23 @@ const GlassHeader = () => {
           "
         >
           <nav className="flex flex-col space-y-2">
+          <a
+              href="https://form.jotform.com/252493423386058"
+              className="
+                px-4 py-2 rounded-lg 
+                bg-gradient-to-r from-purple-500 to-pink-500
+                text-center font-semibold
+                hover:opacity-90 transition
+              "
+            >
+              Request an Invite
+            </a>
             <a href="#home" className="hover:underline">Home</a>
             <a href="#about" className="hover:underline">About</a>
             <a href="#art_bridge" className="hover:underline">Art Bridge</a>
             <a href="#collective" className="hover:underline">Collective</a>
             <a href="#contact" className="hover:underline">Contact</a>
+            
           </nav>
         </div>
       )}

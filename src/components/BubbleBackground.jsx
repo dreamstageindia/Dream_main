@@ -4,10 +4,12 @@
 import React, { useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Float, Environment } from "@react-three/drei";
-import * as THREE from "three";
 
+/* utility */
 const random = (min, max) => Math.random() * (max - min) + min;
-const COLORS = ["#4f46e5", "#6366f1", "#a78bfa", "#9ca3af", "#d1d5db", "#ffffff"];
+
+/* strict palette: blue, yellow, orange */
+const COLORS = [ "#FACC15","#3B82F6", "#FB923C"]; // blue-500, yellow-400, orange-400
 
 function Bubbles({ count = 30 }) {
   const bubbles = useMemo(
@@ -31,13 +33,14 @@ function Bubbles({ count = 30 }) {
       floatIntensity={0.5}
     >
       <mesh position={b.position}>
-        {/* <-- use sphereGeometry, not sphereBufferGeometry */}
         <sphereGeometry args={[b.radius, 32, 32]} />
         <meshStandardMaterial
           color={b.color}
-          metalness={0.7}
-          roughness={0.2}
+          metalness={0.6}
+          roughness={0.25}
           envMapIntensity={1}
+          emissive={b.color}
+          emissiveIntensity={0.1}
         />
       </mesh>
     </Float>

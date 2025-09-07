@@ -45,7 +45,7 @@ export default function ContactUs() {
         <BubbleBackground />
 
         {/* glass‑morphic form */}
-        <div className="relative z-10 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden p-8 md:p-16">
+        <div className="relative z-10 bg-black/50 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden p-8 md:p-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 text-center">
             Contact Us
           </h2>
@@ -88,7 +88,7 @@ export default function ContactUs() {
             <div className="text-center">
               <button
                 type="submit"
-                className="px-8 py-3 bg-indigo-500 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-600 transform hover:scale-105 transition"
+                className="px-8 py-3 bg-pink-500 text-white font-semibold rounded-full shadow-lg hover:bg-pink-600 transform hover:scale-105 transition"
               >
                 Send Message
               </button>
