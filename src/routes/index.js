@@ -4,6 +4,8 @@ import App from "../App";
 import Home from "../pages/Home";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TermsandCom from "../components/T&C";
+import PrivacyPolicy from "../components/PrivacyPolicy";
 gsap.registerPlugin(ScrollTrigger);
 
 const router = createBrowserRouter([
@@ -14,6 +16,14 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <Home />
+      },
+      {
+        path: "terms-and-community-guidelines",
+        element: <TermsandCom/>
+      },
+      {
+        path: "privacy-policy",
+        element: <PrivacyPolicy/>
       }
     ]
   }

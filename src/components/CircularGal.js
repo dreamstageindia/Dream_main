@@ -4,7 +4,7 @@ import BigBlockText from './BigBlockText';
 
 const CircularGal = () => {
   return (
-    <div className=' pb-10'>
+    <div className=''>
       <div className='flex items-left md:flex-row flex-col justify-left'>
       <h2
           className="uppercase font-bold ml-10 text-[2rem] md:text-[3.5rem]"

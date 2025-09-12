@@ -7,43 +7,43 @@ gsap.registerPlugin(ScrollTrigger);
 
 const slides = [
   {
-    video: "/assets/video/1.mp4",
+    video: "/assets/video/1.webm",
     image: "/assets/image/c1.png",
     words: ["SPREADING", "HAPPINESS", "BY TURNING", "DREAMS", "INTO REALITY"],
     pos: "lt",
   },
   {
-    video: "/assets/video/2.mp4",
+    video: "/assets/video/2.webm",
     image: "/assets/image/c2.png",
     words: ["HOME", "OF HAPPY", "CREATIVE", "HUMANS"],
     pos: "rb",
   },
   {
-    video: "/assets/video/3.mp4",
+    video: "/assets/video/3.webm",
     image: "/assets/image/c3.png",
     words: ["MAKING", "CREATIVE CAREERS", "JOYFUL,", "DIGNIFIED", "AND DEPENDABLE"],
     pos: "lb",
   },
   {
-    video: "/assets/video/4.mp4",
+    video: "/assets/video/4.webm",
     image: "/assets/image/c4.png",
     words: ["BUILDING", "THE WORLD’S", "LARGEST", "ARTIST COLLECTIVE"],
     pos: "rt",
   },
   {
-    video: "/assets/video/5.mp4",
+    video: "/assets/video/5.webm",
     image: "/assets/image/c5.png",
     words: ["POWERED", "BY ARTISTS.", "UNITED", "BY STORIES."],
     pos: "lt",
   },
   {
-    video: "/assets/video/6.mp4",
+    video: "/assets/video/6.webm",
     image: "/assets/image/c6.png",
     words: ["CURATE", "EXPERIENCES", "OF A KIND", "WITH US"],
     pos: "rb",
   },
   {
-    video: "/assets/video/7.mp4",
+    video: "/assets/video/7.webm",
     image: "/assets/image/c7.png",
     words: ["ART+TECH+PURPOSE", "=", "THE NEXT", "BIG LEAP"],
     pos: "lb",

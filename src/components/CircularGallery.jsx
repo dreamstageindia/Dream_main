@@ -567,7 +567,7 @@ export default function CircularGallery({
   return (
     <div
       ref={containerRef}
-      style={{ width: "100vw", height: "100vh" }}
+      style={{ width: "100vw", height: "80vh" }}
       className="overflow-hidden cursor-grab active:cursor-grabbing"
     />
   );

@@ -138,7 +138,7 @@ const Hero = () => {
           crossOrigin="anonymous"
           poster={fallbackImage}
         >
-          <source src="/assets/video/stage/stage3.mp4" type="video/mp4" />
+          <source src="/assets/video/stage/stage3.webm" type="video/webm" />
         </video>
       )}
 

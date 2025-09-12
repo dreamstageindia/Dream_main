@@ -45,6 +45,17 @@ const GlassHeader = () => {
           <a href="#art_bridge" className="cursor-target uppercase">Art Bridge</a>
           <a href="#collective" className="cursor-target uppercase">Collective</a>
           <a href="#contact" className="cursor-target uppercase">Contact</a>
+          <a
+            href=""
+            className="
+              px-4 py-2 rounded-lg 
+              bg-gradient-to-r from-purple-500 to-pink-500
+              text-white font-semibold
+              hover:opacity-90 transition
+            "
+          >
+            LOGIN
+          </a>
 
           
         </nav>

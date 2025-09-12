@@ -21,23 +21,7 @@ export default function Section6() {
   return (
     <section className="relative w-full bg-black text-white overflow-hidden">
       {/* Rain overlay */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="rain">
-          {drops.map((drop, i) => (
-            <span
-              key={i}
-              className="drop"
-              style={{
-                left: drop.left,
-                height: drop.height,
-                animationDuration: drop.duration,
-                animationDelay: drop.delay,
-                opacity: drop.opacity,
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      
 
       {/* Content */}
       <div className="relative flex flex-col md:flex-row items-center justify-center max-w-6xl mx-auto px-6 py-12 md:py-20 lg:py-32">

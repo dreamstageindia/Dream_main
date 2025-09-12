@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import { FaSquareFacebook, FaLinkedin, FaInstagram } from "react-icons/fa6";
+import { FaSquareFacebook, FaLinkedin, FaInstagram, FaYoutube, FaX, FaThreads } from "react-icons/fa6";
 import { gsap } from "gsap";
 import { Link } from "react-router-dom";
 
@@ -58,10 +58,8 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-4">Artists</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="https://form.jotform.com/252493423386058" className="hover:text-indigo-400">Request an invite</a></li>
-            <li><a href="#" className="hover:text-indigo-400">Showcase Portfolio</a></li>
-            <li><a href="#" className="hover:text-indigo-400">How It Works</a></li>
-            <li><a href="#" className="hover:text-indigo-400">Testimonials</a></li>
+            <li><a href="https://form.jotform.com/252493423386058" target="_blank" className="hover:text-indigo-400">Request an invite</a></li>
+            
           </ul>
         </div>
 
@@ -82,15 +80,13 @@ export default function Footer() {
                 href="mailto:careers@dreamstage.tech?subject=Job%20Application&body=Hello%20Dreamstage%20Team,"
                 className="hover:text-indigo-400"
               >
-                Careers
+                Careers - careers@dreamstage.tech
               </a>
             </li>
 
-            <li><a href="mailto:hello@dreamstage.tech" className="hover:text-indigo-400">Hello</a></li>
-            <li><a href="mailto:support@dreamstage.tech" className="hover:text-indigo-400">Support</a></li>
+            <li><a href="mailto:hello@dreamstage.tech" className="hover:text-indigo-400">Mail us on - hello@dreamstage.tech</a></li>
+            <li><a href="mailto:support@dreamstage.tech" className="hover:text-indigo-400">Support - support@dreamstage.tech</a></li>
 
-            <li><a href="#" className="hover:text-indigo-400">Legal</a></li>
-            <li><a href="#" className="hover:text-indigo-400">Newsletter Signup</a></li>
           </ul>
         </div>
       </div>
@@ -108,16 +104,29 @@ export default function Footer() {
 
         {/* Social Icons */}
         <div className="flex space-x-4 mb-4 md:mb-0">
-          <a href="#" className="hover:text-indigo-400">
+          <a href="https://www.linkedin.com/company/dreamstagetech" className="hover:text-indigo-400">
             <FaLinkedin size={20} />
           </a>
-          <a href="#" className="hover:text-indigo-400">
+          <a href="https://www.youtube.com/@dreamstagecollective" className="hover:text-indigo-400">
+            <FaYoutube size={20} />
+          </a>
+          <a href="https://x.com/dreamstage_tech" className="hover:text-indigo-400">
+            <FaX size={20} />
+          </a>
+
+          <a href="https://www.instagram.com/dreamstagecollective/" className="hover:text-indigo-400">
             <FaInstagram size={20} />
           </a>
-          <a href="#" className="hover:text-indigo-400">
-            <FaSquareFacebook size={20} />
+          <a href="https://www.threads.com/@dreamstagecollective" className="hover:text-indigo-400">
+            <FaThreads size={20} />
           </a>
         </div>
+        <a href="/terms-and-community-guidelines" className="hover:text-indigo-400">
+            Terms and Community Guidelines
+          </a>
+          <a href="/privacy-policy" className="hover:text-indigo-400">
+            Privacy Policy
+          </a>
 
         {/* Copyright */}
         <div className="text-gray-500">

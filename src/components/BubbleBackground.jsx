@@ -9,7 +9,7 @@ import { Float, Environment } from "@react-three/drei";
 const random = (min, max) => Math.random() * (max - min) + min;
 
 /* strict palette: blue, yellow, orange */
-const COLORS = [ "#FACC15","#3B82F6", "#FB923C"]; // blue-500, yellow-400, orange-400
+const COLORS = [ "#fcbc31","#09a398", "#cc2e10"]; // blue-500, yellow-400, orange-400
 
 function Bubbles({ count = 30 }) {
   const bubbles = useMemo(

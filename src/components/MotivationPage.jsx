@@ -44,18 +44,18 @@ const itemVariants = {
 
 const MotivationComponent = () => {
   return (
-    <div className='bg-black h-[720px]'>
+    <div className='bg-black h-auto mb-16'>
       <BigBlockText
         title="OUR MOTIVATION"
         text={
           [
-            "Artists often struggle with delayed payments, unfair wages, and unreliable gigs—leading many to question their creative path.",
-            "On the other side, venue owners, curators, and HoReCa professionals face unmet expectations, unclear terms, and difficulty finding talent.", 
-            "These issues persist across cities like Goa, Mumbai, Bangalore, Gurgaon, and Himachal.", 
-            "It became clear: we need a platform that simplifies discovery, aligns expectations, and makes the process seamless for both artists and curators."
+            "We have witnessed countless artists struggle. Struggling to get paid on time, to find their next gig, to secure regular work, and to receive fair wages. Breaches of agreements, delayed payments, and broken promises became far too common. And often, it wasn’t just statistics. It was our own friends, breaking down during long venting sessions, questioning their career choices and their place in the creative world. ",
+            "But the struggle wasn’t one-sided. ", 
+            "We’ve seen venue owners, event curators, wedding planners, and HoReCa professionals facing their own challenges. From unmet expectations to unclear terms and difficulty finding the right talent, their frustration was just as real. These weren’t isolated incidents. The same issues appeared again and again, across art forms and across cities. Whether in Goa, Mumbai, Bangalore, Gurgaon, or Himachal, the story was the same. ", 
+            "That’s when it became clear. We don’t just need more talent or more gigs. We need a platform. A space that simplifies discovery, aligns expectations, and makes the process seamless for both artists and curators. "
           ]
         }
-        fontSize="2.5rem"
+        fontSize="1.8rem"
       />
     </div>
   );
