@@ -1,7 +1,7 @@
 export default function TermsAndConditions() {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Dream Stage — Terms & Community Guidelines</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Dream Stage | Terms & Community Guidelines</h1>
       <p className="text-sm text-gray-600 dark:text-gray-300"><strong>Last Updated:</strong> 8 Sep 2025</p>
       <p className="mt-4 text-gray-700 dark:text-gray-200">Welcome to Dream Stage! These Terms & Community Guidelines (“Terms”) are a legal agreement between you and Dream Stage Media Pvt Ltd (“Dream Stage,” “we,” “our”). By using our platform, apps, or services (“Services”), you agree to follow these Terms.</p>
       <p className="text-gray-700 dark:text-gray-200">We’ve written this in clear, straightforward language so it’s easy to read. These Terms still carry the same legal meaning and protections as longer, lawyer-style documents.</p>

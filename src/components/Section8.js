@@ -5,7 +5,7 @@ import BigBlockText from "./BigBlockText";
 const DATA = [
   { img: "/assets/image/values/1.png",  title: "Artist‑First",             desc: "Fair opportunities, recognition, and sustainable careers for creative professionals." },
   { img: "/assets/image/values/2.png",  title: "Community‑Powered",        desc: "Bridging artists and businesses through intuitive tech and meaningful collaboration." },
-  { img: "/assets/image/values/3.png",  title: "Fair & Transparent Payments", desc: "Secure, timely, and equitable compensation—always." },
+  { img: "/assets/image/values/3.png",  title: "Fair & Transparent Payments", desc: "Secure, timely, and equitable compensation always." },
   { img: "/assets/image/values/4.png",  title: "For the Creative Good",     desc: "Using art to drive social, cultural, and economic change." },
   { img: "/assets/image/values/5.png",  title: "Ethical & Inclusive",       desc: "A respectful, safe, and welcoming space for all." },
   { img: "/assets/image/values/6.png",  title: "Tech for Creativity",       desc: "AI, blockchain, and digital tools built to empower artists." },

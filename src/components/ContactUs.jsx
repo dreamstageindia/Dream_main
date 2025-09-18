@@ -50,7 +50,7 @@ export default function ContactUs() {
             Contact Us
           </h2>
           <form ref={formRef} className="space-y-6">
-            {["name", "email", "subject"].map((field) => (
+            {["name","phone", "email", "subject"].map((field) => (
               <div key={field} className="form-element">
                 <label
                   htmlFor={field}
@@ -64,6 +64,8 @@ export default function ContactUs() {
                   placeholder={
                     field === "name"
                       ? "Your Name"
+                      : field === "phone"
+                      ? "Phone Number"
                       : field === "email"
                       ? "you@example.com"
                       : "Subject"

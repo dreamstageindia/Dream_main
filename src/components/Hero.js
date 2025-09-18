@@ -151,16 +151,18 @@ const Hero = () => {
           speed={0.5}
           scrambleChars=".:"
         >
-          <h1 className="font-bold uppercase !text-white/90 leading-[0.85] md:leading-[0.9] text-[24vw] sm:text-[20vw] md:text-[12vw] lg:text-[9rem] text-left break-normal md:break-words hyphens-none">
+          <h1 className="font-bold uppercase !text-white/90 leading-[0.85] md:leading-[0.9] text-[20vw] sm:text-[18vw] md:text-[10vw] lg:text-[7.5rem] text-left break-normal md:break-words hyphens-none">
             <span className="cursor-target flex md:inline items-baseline gap-0 mb-0 md:mb-14 whitespace-nowrap">
               <span className="hidden md:inline">DREAM STAGE</span>
             </span>
             <span className="md:hidden sm:block">DREAM</span>
             <span className="md:hidden sm:block pb-10">STAGE</span>
             <span className="block md:inline whitespace-nowrap cursor-target">WHERE</span>{" "}
-            <span className="block md:inline whitespace-nowrap cursor-target">DREAMS</span>{" "}
-            <span className="block md:inline whitespace-nowrap cursor-target">COME</span>{" "}
-            <span className="block md:inline whitespace-nowrap cursor-target">TRUE</span>
+            <span className="block md:inline whitespace-nowrap cursor-target hidden">DREAMS TAKE</span>{" "}
+            <span className="md:hidden sm:block">DREAMS</span>
+            <span className="md:hidden sm:block">TAKE</span>
+            <span className="block md:inline whitespace-nowrap cursor-target">CENTER</span>{" "}
+            <span className="block md:inline whitespace-nowrap cursor-target">STAGE</span>
           </h1>
         </ScrambledText>
       </section>

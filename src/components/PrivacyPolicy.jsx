@@ -1,7 +1,7 @@
 export default function PrivacyPolicy() {
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Dream Stage — Privacy Policy</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Dream Stage | Privacy Policy</h1>
       <p className="text-sm text-gray-600 dark:text-gray-300"><strong>Last Updated:</strong> 8 Sep 2025</p>
       <p className="mt-4 text-gray-700 dark:text-gray-200">Dream Stage Media Pvt Ltd (“Dream Stage,” “we,” “our,” or “us”) respects your privacy. This Privacy Policy explains what information we collect, how we use it, and the choices you have.</p>
       <p className="text-gray-700 dark:text-gray-200">We’ve written this in plain English so it’s easy to understand. By using Dream Stage, you agree to the terms described here.</p>

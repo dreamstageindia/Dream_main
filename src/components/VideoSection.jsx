@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
-
 import GridGlowDistort from "./GridGlowDistort";
 
 const isIOS = () =>
@@ -9,49 +8,167 @@ const isIOS = () =>
   !window.MSStream;
 
 const VideoSection = ({
-  videoSrc,
+  videoSrc,   // e.g. "/assets/video/1.webm"
   imageSrc,
   words = [],
   pos = "lt",
   baseColor = "#fff",
-  hoverColor = "#fff",
 }) => {
   const sectionRef = useRef(null);
-  const containerRef = useRef(null);
   const blockRef = useRef(null);
-  const videoRef = useRef(null); // Added for video control
-  const [hover, setHover] = useState(false);
+  const videoRef = useRef(null);
 
   const ios = isIOS();
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
 
-  // Fade in/out on scroll with optimized IntersectionObserver
+  // play/pause intent (set by IO)
+  const [shouldPlay, setShouldPlay] = useState(false);
+
+  // loading state + fallback
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [useImageFallback, setUseImageFallback] = useState(false);
+
+  // derive mp4 alt path if available (same name, .mp4). If you don’t have mp4s, keep only webm <source>.
+  const mp4Src = videoSrc.replace(/\.webm(\?.*)?$/i, ".mp4$1");
+
+  // --- Visibility / fade-in animation (text + section) ---
   useEffect(() => {
     const section = sectionRef.current;
     const text = blockRef.current;
-    const video = videoRef.current;
 
     gsap.set(section, { autoAlpha: 0 });
-    gsap.set(text, { autoAlpha: 0, y: 10 }); // Reduced y for faster animation
+    gsap.set(text, { autoAlpha: 0, y: 10 });
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          gsap.to(section, { autoAlpha: 1, duration: 0.4, ease: "power2.out" });
-          gsap.to(text, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out", delay: 0.1 });
-          if (video && !ios) video.play(); // Play video when visible
+        const visible = entry.isIntersecting;
+        setShouldPlay(visible);
+
+        if (visible) {
+          gsap.to(section, { autoAlpha: 1, duration: 0.35, ease: "power2.out" });
+          gsap.to(text, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power2.out", delay: 0.06 });
         } else {
-          gsap.to(section, { autoAlpha: 0, duration: 0.3, ease: "power2.in" });
-          gsap.to(text, { autoAlpha: 0, y: 10, duration: 0.3, ease: "power2.in" });
-          if (video && !ios) video.pause(); // Pause video when not visible
+          gsap.to(section, { autoAlpha: 0, duration: 0.25, ease: "power2.in" });
+          gsap.to(text, { autoAlpha: 0, y: 10, duration: 0.25, ease: "power2.in" });
         }
       },
-      { threshold: 0.3, rootMargin: isMobile ? "-10% 0px" : "0px" } // Lower threshold
+      { threshold: 0.55, rootMargin: isMobile ? "-10% 0px" : "0px" }
     );
 
     io.observe(section);
     return () => io.disconnect();
-  }, [isMobile, ios]);
+  }, [isMobile]);
+
+  // --- Media control with watchdog/retry ---
+  const playLock = useRef(false);
+  const watchdogId = useRef(0);
+  const retries = useRef(0);
+
+  useEffect(() => {
+    if (ios || useImageFallback) return;
+    const v = videoRef.current;
+    if (!v) return;
+
+    v.muted = true;
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+    v.setAttribute("webkit-playsinline", "true");
+
+    // event handlers
+    const onLoadedData = () => {
+      setIsLoaded(true);
+      retries.current = 0;
+      if (shouldPlay) tryPlay();
+    };
+    const onCanPlay = () => setIsLoaded(true);
+    const onStalled = () => kickRetry("stalled");
+    const onError = () => kickRetry("error");
+    const onEmptied = () => kickRetry("emptied");
+
+    v.addEventListener("loadeddata", onLoadedData);
+    v.addEventListener("canplay", onCanPlay);
+    v.addEventListener("stalled", onStalled);
+    v.addEventListener("error", onError);
+    v.addEventListener("emptied", onEmptied);
+
+    // visibility tab swaps sometimes suspend decode
+    const onVisibility = () => {
+      if (document.visibilityState === "visible" && shouldPlay) {
+        kickRetry("visibility");
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    // watchdog: if we intend to play but nothing is visible in time, fallback to image
+    const armWatchdog = () => {
+      clearTimeout(watchdogId.current);
+      if (!shouldPlay) return;
+      watchdogId.current = window.setTimeout(() => {
+        if (!isLoaded || v.readyState < 2) {
+          if (retries.current >= 2) {
+            setUseImageFallback(true); // graceful degrade
+          } else {
+            kickRetry("watchdog");
+          }
+        }
+      }, 2500); // 2.5s is a good compromise
+    };
+
+    const tryPlay = async () => {
+      if (!shouldPlay) return;
+      if (playLock.current) return;
+      if (v.readyState < 2) v.load(); // ensure buffers
+      playLock.current = true;
+      try {
+        await v.play(); // may throw on autoplay policy—safe to ignore
+      } catch (_) {
+        // ignore; user gesture or retry will fix
+      } finally {
+        playLock.current = false;
+      }
+    };
+
+    function kickRetry(reason) {
+      if (useImageFallback) return;
+      // small capped retry loop
+      if (retries.current < 2) {
+        retries.current += 1;
+        // reload same sources & seek a tiny offset (nudges decoder)
+        const t = Math.min(v.currentTime + 0.001, 0.001);
+        v.load();
+        v.currentTime = t;
+        setIsLoaded(false);
+        if (shouldPlay) tryPlay();
+        armWatchdog();
+      } else {
+        setUseImageFallback(true);
+      }
+    }
+
+    // act on current intent
+    if (shouldPlay) {
+      if (v.readyState >= 2) {
+        setIsLoaded(true);
+        tryPlay();
+      } else {
+        v.load();
+        armWatchdog();
+      }
+    } else {
+      clearTimeout(watchdogId.current);
+      if (!playLock.current && !v.paused) v.pause();
+    }
+
+    return () => {
+      clearTimeout(watchdogId.current);
+      document.removeEventListener("visibilitychange", onVisibility);
+      v.removeEventListener("loadeddata", onLoadedData);
+      v.removeEventListener("canplay", onCanPlay);
+      v.removeEventListener("stalled", onStalled);
+      v.removeEventListener("error", onError);
+      v.removeEventListener("emptied", onEmptied);
+    };
+  }, [shouldPlay, ios, useImageFallback, isLoaded]);
 
   const alignments = {
     lt: { place: "top-6 left-6", textAlign: "left" },
@@ -62,69 +179,49 @@ const VideoSection = ({
   const { place, textAlign } = alignments[pos] || alignments.lt;
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative w-screen h-screen shrink-0 overflow-hidden text-white bg-black snap-start"
-    >
+    <section ref={sectionRef} className="relative w-screen h-screen shrink-0 overflow-hidden text-white bg-black snap-start">
+      {/* Media layer */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {ios ? (
-          <img
-            src={imageSrc}
-            alt="Background"
-            className="w-full h-full object-cover"
-            loading="lazy" // Lazy load images
-          />
+        {ios || useImageFallback ? (
+          <img src={imageSrc} alt="" className="w-full h-full object-cover" loading="lazy" />
         ) : (
           <video
             ref={videoRef}
-            src={videoSrc}
-            className="w-full h-full object-cover"
-            autoPlay={false} // Controlled by IntersectionObserver
+            className={`w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? "opacity-100" : "opacity-0"}`}
             loop
             muted
             playsInline
-            webkit-playsinline="true"
-            preload="metadata" // Load metadata only
-          />
+            preload="auto"
+            poster={imageSrc}            // visible until frames decode
+            crossOrigin="anonymous"
+          >
+            {/* Prefer WebM, fall back to MP4 (if present) */}
+            <source src={videoSrc} type="video/webm" />
+            {/* comment this line if you don't have mp4 assets */}
+            <source src={mp4Src} type="video/mp4" />
+          </video>
         )}
       </div>
 
+      {/* FX + tint */}
       <div className="absolute inset-0 z-10 pointer-events-none">
-        <GridGlowDistort glowCount={4} glowDur={1} /> {/* Reduced glowCount and glowDur */}
+        <GridGlowDistort glowCount={4} glowDur={1} />
       </div>
+      <div className="absolute inset-0 z-15 bg-black/30 pointer-events-none" />
 
-      <div className="absolute inset-0 z-15 bg-black/30 pointer-events-none" /> {/* Lighter tint */}
-
-      <div
-        ref={containerRef}
-        className="relative z-20 w-full h-full"
-        onMouseEnter={() => !isMobile && setHover(true)}
-        onMouseLeave={() => !isMobile && setHover(false)}
-        onTouchStart={() => isMobile && setHover(true)}
-        onTouchEnd={() => isMobile && setHover(false)}
-      >
-
+      {/* Copy */}
+      <div className="relative z-20 w-full h-full">
         <div
           ref={blockRef}
           className={`absolute ${place} px-6`}
-          style={{
-            color: baseColor,
-            textAlign,
-            textShadow: "0 0 6px rgba(0,0,0,0.5)", // Reduced shadow
-          }}
+          style={{ color: baseColor, textAlign, textShadow: "0 0 6px rgba(0,0,0,0.5)" }}
         >
           <div
             className="font-semibold uppercase whitespace-nowrap"
-            style={{
-              fontSize: "clamp(1rem, 6vw, 4rem)", // Smaller font
-              letterSpacing: "0.03em",
-              wordSpacing: "0.08em",
-            }}
+            style={{ fontSize: "clamp(1rem, 6vw, 4rem)", letterSpacing: "0.03em", wordSpacing: "0.08em" }}
           >
             {words.map((w, i) => (
-              <div key={i} className="mb-1 whitespace-nowrap">
-                {w}
-              </div>
+              <div key={i} className="mb-1 whitespace-nowrap">{w}</div>
             ))}
           </div>
         </div>

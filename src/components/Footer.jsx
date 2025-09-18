@@ -5,6 +5,8 @@ import React, { useRef, useEffect } from "react";
 import { FaSquareFacebook, FaLinkedin, FaInstagram, FaYoutube, FaX, FaThreads } from "react-icons/fa6";
 import { gsap } from "gsap";
 import { Link } from "react-router-dom";
+import { openGmail } from "../utils/email";
+
 
 export default function Footer() {
   const footerRef = useRef(null);
@@ -34,7 +36,7 @@ export default function Footer() {
           Your art deserves a stage. Let’s build it together.
         </h2>
         <div className="space-x-4">
-          <Link to={"https://form.jotform.com/252493423386058"}>
+          <Link target="_blank" to={"https://form.jotform.com/252493423386058"}>
             <button className="px-6 py-3 bg-pink-600 hover:bg-pink-700 rounded-full font-medium transition">
               Request an invite
             </button>
@@ -66,26 +68,47 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-4">Curators</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-indigo-400">Book a Talent</a></li>
-            <li><a href="#" className="hover:text-indigo-400">Event Discovery</a></li>
-            <li><a href="#" className="hover:text-indigo-400">Why Dream Stage</a></li>
+            <li><a href="#" target="_blank" className="hover:text-indigo-400">Book a Talent(Coming Soon)</a></li>
+            <li><a href="#" target="_blank" className="hover:text-indigo-400">Event Discovery(Coming Soon)</a></li>
+            <li><a href="#why" className="hover:text-indigo-400">Why Dream Stage</a></li>
           </ul>
         </div>
 
         <div>
           <h3 className="font-semibold mb-4">Company</h3>
           <ul className="space-y-2 text-sm">
-            <li>
-              <a
-                href="mailto:careers@dreamstage.tech?subject=Job%20Application&body=Hello%20Dreamstage%20Team,"
-                className="hover:text-indigo-400"
-              >
-                Careers - careers@dreamstage.tech
-              </a>
-            </li>
+          <li>
+  <button
+    onClick={() =>
+      openGmail({
+        to: "careers@dreamstage.tech",
+        subject: "Job Application",
+        body: "Hello Dream Stage Team,"
+      })
+    }
+    className="hover:text-indigo-400 underline decoration-transparent hover:decoration-inherit"
+  >
+    Careers – careers@dreamstage.tech
+  </button>
+</li>
 
-            <li><a href="mailto:hello@dreamstage.tech" className="hover:text-indigo-400">Mail us on - hello@dreamstage.tech</a></li>
-            <li><a href="mailto:support@dreamstage.tech" className="hover:text-indigo-400">Support - support@dreamstage.tech</a></li>
+<li>
+  <button
+    onClick={() => openGmail({ to: "hello@dreamstage.tech" })}
+    className="hover:text-indigo-400 underline decoration-transparent hover:decoration-inherit"
+  >
+    Mail us – hello@dreamstage.tech
+  </button>
+</li>
+
+<li>
+  <button
+    onClick={() => openGmail({ to: "support@dreamstage.tech" })}
+    className="hover:text-indigo-400 underline decoration-transparent hover:decoration-inherit"
+  >
+    Support – support@dreamstage.tech
+  </button>
+</li>
 
           </ul>
         </div>
@@ -104,27 +127,27 @@ export default function Footer() {
 
         {/* Social Icons */}
         <div className="flex space-x-4 mb-4 md:mb-0">
-          <a href="https://www.linkedin.com/company/dreamstagetech" className="hover:text-indigo-400">
+          <a href="https://www.linkedin.com/company/dreamstagetech" target="_blank" className="hover:text-indigo-400">
             <FaLinkedin size={20} />
           </a>
-          <a href="https://www.youtube.com/@dreamstagecollective" className="hover:text-indigo-400">
+          <a href="https://www.youtube.com/@dreamstagecollective" target="_blank" className="hover:text-indigo-400">
             <FaYoutube size={20} />
           </a>
-          <a href="https://x.com/dreamstage_tech" className="hover:text-indigo-400">
+          <a href="https://x.com/dreamstage_tech" target="_blank" className="hover:text-indigo-400">
             <FaX size={20} />
           </a>
 
-          <a href="https://www.instagram.com/dreamstagecollective/" className="hover:text-indigo-400">
+          <a href="https://www.instagram.com/dreamstagecollective/" target="_blank" className="hover:text-indigo-400">
             <FaInstagram size={20} />
           </a>
-          <a href="https://www.threads.com/@dreamstagecollective" className="hover:text-indigo-400">
+          <a href="https://www.threads.com/@dreamstagecollective" target="_blank" className="hover:text-indigo-400">
             <FaThreads size={20} />
           </a>
         </div>
-        <a href="/terms-and-community-guidelines" className="hover:text-indigo-400">
+        <a href="/terms-and-community-guidelines" target="_blank" className="hover:text-indigo-400">
             Terms and Community Guidelines
           </a>
-          <a href="/privacy-policy" className="hover:text-indigo-400">
+          <a href="/privacy-policy" target="_blank" className="hover:text-indigo-400">
             Privacy Policy
           </a>
 

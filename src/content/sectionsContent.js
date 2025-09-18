@@ -3,7 +3,7 @@ export const SECTIONS_5_TO_10 = [
   {
     id: 5,
     title: "Spreading Happiness by Turning Dreams into Reality",
-    role: "Narrative Role: The emotional hook — sets purpose & tone",
+    role: "Narrative Role: The emotional hook sets purpose & tone",
     ux: [
       "Full-screen Hero Banner (animation or video loop)",
       "Artist silhouette walking toward a rising stage / light",

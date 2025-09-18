@@ -124,7 +124,7 @@ const Section5 = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-screen h-screen overflow-hidden text-white bg-black font-alatsi">
+    <section ref={sectionRef} className="relative w-screen h-screen overflow-hidden text-white bg-black font-alatsi" id='why'>
       <div className="absolute inset-0 bg-black/60 pointer-events-none z-10" />
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       <div className="relative z-20 w-full h-full    flex items-center">
