@@ -120,7 +120,7 @@ const GlassHeader = () => {
             >
               Request an Invite
             </a>
-            <a href="#home" className="hover:underline">Home</a>
+            
             <a href="#about" className="hover:underline">About</a>
             <a href="#art_bridge" className="hover:underline">Art Bridge</a>
             <a href="#collective" className="hover:underline">Collective</a>
