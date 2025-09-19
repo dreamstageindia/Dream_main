@@ -49,8 +49,8 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-4">Dream Stage</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#home" className="hover:text-indigo-400">Home</a></li>
-            <li><a href="#about" className="hover:text-indigo-400">About</a></li>
+            <li><a href="#" className="hover:text-indigo-400">Home</a></li>
+            <li><a href="#about" className="hover:text-indigo-400">Our Mission</a></li>
             <li><a href="#art_bridge" className="hover:text-indigo-400">ArtBridge</a></li>
             <li><a href="#collective" className="hover:text-indigo-400">Collective</a></li>
             <li><a href="#contact" className="hover:text-indigo-400">Contact</a></li>
@@ -68,8 +68,8 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-4">Curators</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" target="_blank" className="hover:text-indigo-400">Book a Talent(Coming Soon)</a></li>
-            <li><a href="#" target="_blank" className="hover:text-indigo-400">Event Discovery(Coming Soon)</a></li>
+            <li><a aria-disabled target="_blank" className="hover:text-indigo-400">Book a Talent(Coming Soon)</a></li>
+            <li><a aria-disabled target="_blank" className="hover:text-indigo-400">Event Discovery(Coming Soon)</a></li>
             <li><a href="#why" className="hover:text-indigo-400">Why Dream Stage</a></li>
           </ul>
         </div>

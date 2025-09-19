@@ -119,8 +119,8 @@ const Home = () => {
       </div>
 
       {/* Pinned ABOUT / VISION / MISSION (unchanged order/visuals) */}
-      <div ref={pinWrapRef} className="relative h-screen overflow-hidden bg-black" id="about">
-        <Section2 ref={sec2Ref} />
+      <div ref={pinWrapRef} className="relative h-screen overflow-hidden bg-black">
+        <Section2 ref={sec2Ref}  id="about"/>
         <Section3 ref={sec3Ref} />
         <Section4 ref={sec4Ref} />
       </div>

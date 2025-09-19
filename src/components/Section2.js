@@ -4,7 +4,7 @@ import DistortedGridBG from "./DistortedGridBG";
 import BigBlockText from "./BigBlockText";
 
 const Section2 = forwardRef((props, ref) => (
-  <section ref={ref} className="absolute inset-0 flex items-center justify-center will-change-transform">
+  <section ref={ref} className="absolute inset-0 flex items-center justify-center will-change-transform " id="about">
     <DistortedGridBG />
 
     {/* Fullscreen border */}

@@ -41,7 +41,7 @@ const GlassHeader = () => {
           >
             Request an Invite
           </a>
-          <a href="#home" className="cursor-target uppercase">HOME</a>
+          {/* <a href="#home" className="cursor-target uppercase">HOME</a> */}
           <a href="#about" className="cursor-target uppercase">ABOUT</a>
           <a href="#art_bridge" className="cursor-target uppercase">Art Bridge</a>
           <a href="#collective" className="cursor-target uppercase">Collective</a>
